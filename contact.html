@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Contact Us - IoT Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .hero-red { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    .footer-dark { background: #0f172a; }
+  </style>
+</head>
+<body class="bg-white text-slate-900">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+          <i class="ph ph-sliders text-white text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="home.html" class="text-slate-700 hover:text-red-600 font-medium transition">Home</a>
+        <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
+        <a href="index.html" class="text-slate-700 hover:text-red-600 font-medium transition">My Panels</a>
+        <a href="contact.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-red text-white py-12 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h1>
+      <p class="text-base text-red-50 mb-6 max-w-2xl mx-auto">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-12 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Contact Form -->
+        <div>
+          <h2 class="text-xl font-bold mb-5 text-slate-900">Send us a Message</h2>
+          <form class="space-y-6">
+            <div>
+              <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+              <input type="text" id="name" name="name" required
+                     class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+              <input type="email" id="email" name="email" required
+                     class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label for="company" class="block text-sm font-semibold text-slate-700 mb-2">Company (Optional)</label>
+              <input type="text" id="company" name="company"
+                     class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-semibold text-slate-700 mb-2">Subject</label>
+              <select id="subject" name="subject" required
+                      class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+                <option value="">Select a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="sales">Sales & Pricing</option>
+                <option value="support">Technical Support</option>
+                <option value="partnership">Partnership Opportunities</option>
+                <option value="demo">Request a Demo</option>
+              </select>
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+              <textarea id="message" name="message" rows="6" required
+                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition resize-none"></textarea>
+            </div>
+            <button type="submit" 
+                    class="w-full bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+              <i class="ph ph-paper-plane-right"></i> Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div>
+          <h2 class="text-xl font-bold mb-5 text-slate-900">Contact Information</h2>
+          <p class="text-sm text-slate-600 mb-6">We're here to help! Reach out to us through any of the following channels.</p>
+          
+          <div class="space-y-5 mb-6">
+            <!-- Email -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-envelope text-red-600 text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-900 mb-1">Email</h3>
+                <a href="mailto:support@iotdashboard.com" class="text-sm text-red-600 hover:text-red-700 transition">support@iotdashboard.com</a>
+                <p class="text-xs text-slate-600 mt-1">We'll respond within 24 hours</p>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-phone text-red-600 text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-900 mb-1">Phone</h3>
+                <a href="tel:+15551234567" class="text-sm text-red-600 hover:text-red-700 transition">+1 (555) 123-4567</a>
+                <p class="text-xs text-slate-600 mt-1">Mon-Fri, 9am-6pm EST</p>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="ph ph-map-pin text-red-600 text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-slate-900 mb-1">Office Address</h3>
+                <p class="text-sm text-slate-700">123 Innovation Drive<br>San Francisco, CA 94105<br>United States</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Media -->
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="font-semibold text-slate-900 mb-4">Follow Us</h3>
+            <div class="flex gap-3">
+              <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-red-600 rounded-lg flex items-center justify-center transition group">
+                <i class="ph ph-twitter-logo text-slate-600 group-hover:text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-red-600 rounded-lg flex items-center justify-center transition group">
+                <i class="ph ph-linkedin-logo text-slate-600 group-hover:text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-red-600 rounded-lg flex items-center justify-center transition group">
+                <i class="ph ph-facebook-logo text-slate-600 group-hover:text-white"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-red-600 rounded-lg flex items-center justify-center transition group">
+                <i class="ph ph-youtube-logo text-slate-600 group-hover:text-white"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Office Locations Section -->
+  <section class="py-12 px-6 bg-slate-50">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-8 text-slate-900">Our Offices</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- San Francisco -->
+        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
+          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2 text-slate-900">San Francisco, USA</h3>
+          <p class="text-slate-600 text-xs mb-2">123 Innovation Drive<br>San Francisco, CA 94105</p>
+          <p class="text-xs text-slate-500">Headquarters</p>
+        </div>
+
+        <!-- London -->
+        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
+          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2 text-slate-900">London, UK</h3>
+          <p class="text-slate-600 text-xs mb-2">45 Tech Street<br>London, EC2A 4DP</p>
+          <p class="text-xs text-slate-500">European Office</p>
+        </div>
+
+        <!-- Singapore -->
+        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
+          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2 text-slate-900">Singapore</h3>
+          <p class="text-slate-600 text-xs mb-2">78 Marina Bay<br>Singapore 018956</p>
+          <p class="text-xs text-slate-500">Asia Pacific Office</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-12 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-8 text-slate-900">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="text-base font-semibold mb-2 text-slate-900">How quickly can I get started?</h3>
+          <p class="text-sm text-slate-600">You can get started in minutes! Simply sign up for a free account and start building your first dashboard. No credit card required.</p>
+        </div>
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="text-base font-semibold mb-2 text-slate-900">What devices are supported?</h3>
+          <p class="text-sm text-slate-600">We support all major IoT platforms including Arduino, ESP32, Raspberry Pi, and industrial PLCs. Check our hardware compatibility page for the full list.</p>
+        </div>
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="text-base font-semibold mb-2 text-slate-900">Is there a free trial?</h3>
+          <p class="text-sm text-slate-600">Yes! We offer a free tier that includes up to 10 devices and basic features. You can upgrade anytime to unlock advanced features.</p>
+        </div>
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="text-base font-semibold mb-2 text-slate-900">Do you offer enterprise support?</h3>
+          <p class="text-sm text-slate-600">Absolutely! Our enterprise plans include dedicated support, custom integrations, and SLA guarantees. Contact our sales team for more information.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-dark text-white py-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+              <i class="ph ph-sliders text-white text-lg"></i>
+            </div>
+            <span class="text-xl font-bold">IoT Dashboard</span>
+          </div>
+          <p class="text-slate-400 text-sm mb-4">The ultimate IoT dashboard platform that combines the best features from leading solutions to give you the most comprehensive and user-friendly experience.</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-twitter-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-youtube-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-linkedin-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-facebook-logo text-sm"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Platform</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Mobile Apps</a></li>
+            <li><a href="#" class="hover:text-white transition">Features</a></li>
+            <li><a href="#" class="hover:text-white transition">Web Console</a></li>
+            <li><a href="#" class="hover:text-white transition">Cloud Services</a></li>
+            <li><a href="#" class="hover:text-white transition">Connectivity</a></li>
+            <li><a href="#" class="hover:text-white transition">Security</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Developers</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition">API Reference</a></li>
+            <li><a href="#" class="hover:text-white transition">Hardware Support</a></li>
+            <li><a href="#" class="hover:text-white transition">Community</a></li>
+            <li><a href="#" class="hover:text-white transition">Tutorials</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Support</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact Support</a></li>
+            <li><a href="#" class="hover:text-white transition">System Status</a></li>
+            <li><a href="#" class="hover:text-white transition">Release Notes</a></li>
+            <li><a href="#" class="hover:text-white transition">Enterprise</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-slate-400 text-sm">© 2024 IoT Dashboard. All rights reserved.</p>
+          <div class="flex gap-6 text-slate-400 text-sm">
+            <a href="#" class="hover:text-white transition">Privacy Policy</a>
+            <a href="#" class="hover:text-white transition">Terms of Service</a>
+            <a href="#" class="hover:text-white transition">Cookie Policy</a>
+            <a href="#" class="hover:text-white transition">GDPR</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+

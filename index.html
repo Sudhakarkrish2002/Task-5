@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>IoT Dashboard - Control Panel</title>
+  <meta name="description" content="IoT Dashboard - Create and manage your IoT control panels with real-time monitoring and device control">
+  
+  <!-- External Stylesheets -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/gridstack@10.3.0/dist/gridstack.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  
+  <!-- External Scripts -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@10.3.0/dist/gridstack-all.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+
+    /* --- SCREEN 1: LIST STYLES --- */
+    .dash-card {
+        background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+        padding: 24px; cursor: pointer; transition: all 0.2s;
+        display: flex; flex-direction: column; justify-content: space-between;
+        height: 180px; position: relative; overflow: hidden;
+    }
+    .dash-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: #dc2626; }
+    .dash-card .bg-icon { position: absolute; right: -20px; bottom: -20px; font-size: 100px; color: #f1f5f9; transform: rotate(-15deg); transition: 0.2s; }
+    .dash-card:hover .bg-icon { color: #fee2e2; }
+
+    /* --- SCREEN 2: WORKSPACE STYLES (V5.0) --- */
+    .grid-stack-item-content {
+      background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column; overflow: hidden;
+      border: 1px solid #e2e8f0; height: 100% !important; 
+    }
+    body.edit-mode .grid-stack-item-content { border: 2px dashed #94a3b8; cursor: move; }
+    .widget-header { height: 36px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; background: #fff; flex-shrink: 0; }
+    .widget-title { font-weight: 600; font-size: 12px; color: #475569; text-transform: uppercase; }
+    .edit-tools { display: none; gap: 8px; }
+    body.edit-mode .edit-tools { display: flex; }
+    .widget-body { flex: 1; min-height: 0; width: 100%; height: 100%; position: relative; overflow: hidden; container-type: size; }
+
+    /* Widget Internals */
+    .led-bulb { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #f1f5f9, #cbd5e1); box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 1px 1px rgba(255,255,255,0.5); border: 1px solid #94a3b8; transition: all 0.2s; }
+    .led-on { background: radial-gradient(circle at 30% 30%, #ff8888, #ef4444); box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444, inset 0 2px 5px rgba(255,255,255,0.4); border-color: #b91c1c; }
+    .btn-push { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); box-shadow: 0 4px 0 #94a3b8; transition: 0.1s; transform: translateY(0); }
+    .btn-push:active, .btn-active-state { transform: translateY(4px); box-shadow: none; background: #e2e8f0; }
+    .btn-active-color { background: linear-gradient(to bottom, #4ade80, #22c55e) !important; color: white !important; }
+    .tact-btn { background: radial-gradient(circle, #f1f5f9, #cbd5e1); box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff; transition: 0.1s; }
+    .tact-btn:active { box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff; }
+    .lcd-screen { background-color: #1e293b; color: #4ade80; font-family: 'JetBrains Mono', monospace; border: 2px solid #334155; border-radius: 4px; text-shadow: 0 0 5px rgba(74, 222, 128, 0.5); }
+    .terminal-log { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 8px; background: #0f172a; color: #22c55e; height: 100%; overflow-y: auto; }
+
+    /* Modal */
+    #config-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-content { background: white; width: 320px; border-radius: 12px; padding: 20px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; text-transform: uppercase; }
+    .form-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+  </style>
+</head>
+<body class="h-screen overflow-hidden text-slate-800">
+
+  <div id="screen-list" class="h-full w-full flex flex-col bg-white">
+    <nav class="h-16 bg-white border-b border-slate-200 text-slate-900 flex items-center justify-between px-8 shadow-sm">
+        <div class="flex items-center gap-2 font-bold text-lg tracking-tight">
+            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+                <i class="ph ph-sliders text-white text-lg"></i>
+            </div>
+            <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
+        </div>
+        <div class="flex items-center gap-4">
+        </div>
+    </nav>
+
+    <div class="flex-1 overflow-y-auto p-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">My Dashboards</h1>
+                    <p class="text-slate-500 text-sm">Select a project to load the control panel.</p>
+                </div>
+                <button onclick="createNewDashboard()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition">
+                    <i class="ph ph-plus-circle text-lg"></i> Create New
+                </button>
+            </div>
+
+            <div id="dashboard-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="text-slate-500 italic">Loading...</div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div id="screen-workspace" class="hidden h-full w-full flex">
+    
+    <aside class="w-64 bg-white border-r border-slate-200 text-slate-700 flex flex-col shrink-0 z-50 transition-all duration-300 shadow-sm">
+        <div class="h-14 flex items-center px-4 border-b border-slate-200 font-bold text-slate-900 tracking-tight bg-white">
+          <i class="ph ph-sliders text-red-600 text-xl mr-2"></i> Workspace
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+          <button onclick="closeWorkspace()" class="w-full flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm mb-4 transition">
+            <i class="ph ph-arrow-left"></i> Back to List
+          </button>
+
+          <div id="mqtt-status" class="px-3 py-2 rounded bg-slate-50 border border-slate-200 text-xs flex items-center gap-2 text-red-600">
+            <div class="w-2 h-2 rounded-full bg-red-500"></div> Disconnected
+          </div>
+
+          <div id="widget-palette" class="hidden pt-4 border-t border-slate-200 animate-fade-in">
+            <div class="text-xs font-bold text-red-600 uppercase mb-2">Drag & Drop Widgets</div>
+            <button onclick="addWidget('gauge360')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-timer text-amber-500"></i> 360° Gauge</button>
+            <button onclick="addWidget('gauge180')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-gauge text-red-600"></i> 180° Gauge</button>
+            <button onclick="addWidget('linechart')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-chart-line text-cyan-500"></i> Trend Chart</button>
+            <button onclick="addWidget('slider')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-sliders-horizontal text-emerald-500"></i> Slider</button>
+            <button onclick="addWidget('slideswitch')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-toggle-left text-purple-500"></i> Switch</button>
+            <button onclick="addWidget('tactswitch')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-hand-tap text-pink-500"></i> Button</button>
+            <button onclick="addWidget('pushbutton')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-radio-button text-rose-500"></i> Push Button</button>
+            <button onclick="addWidget('led')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-lightbulb text-red-500"></i> LED</button>
+            <button onclick="addWidget('rgb')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-palette text-fuchsia-500"></i> RGB Light</button>
+            <button onclick="addWidget('label')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-text-t text-slate-500"></i> Label</button>
+            <button onclick="addWidget('terminal')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-terminal-window text-green-500"></i> Terminal</button>
+            <button onclick="addWidget('map')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-map-trifold text-blue-500"></i> Map</button>
+            <button onclick="addWidget('input')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left text-slate-700"><i class="ph ph-map-trifold text-blue-500 text-lg"></i> input</button>
+ 
+          </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white relative">
+        <header class="bg-white h-14 border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-20">
+          <div class="flex items-center gap-3">
+             <div id="status-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></div>
+             <span class="text-sm font-semibold text-slate-700" id="workspace-title">Loading...</span>
+          </div>
+          <div class="flex gap-2">
+            <button id="btn-save" onclick="saveCurrentDashboard()" class="hidden px-3 py-1.5 bg-red-50 text-red-700 text-xs font-semibold rounded hover:bg-red-100 border border-red-200"><i class="ph ph-floppy-disk"></i> Save Changes</button>
+            <button onclick="toggleMode()" id="mode-btn" class="px-4 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded shadow-sm">
+                <i class="ph ph-pencil-simple"></i> Edit Layout
+            </button>
+          </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 relative bg-slate-50">
+          <div class="grid-stack min-h-[800px]"></div>
+        </div>
+    </main>
+  </div>
+
+  <div id="config-modal">
+    <div class="modal-content">
+      <div class="flex justify-between items-center mb-4"><h3 class="font-bold text-slate-800">Edit Widget</h3><button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-lg"></i></button></div>
+      <div id="modal-fields"></div>
+      <div class="mt-6 flex gap-2">
+        <button onclick="saveModal()" class="flex-1 bg-red-600 text-white py-2 rounded-md text-sm font-medium hover:bg-red-700">Update</button>
+        <button onclick="closeModal()" class="flex-1 bg-slate-100 text-slate-600 py-2 rounded-md text-sm font-medium hover:bg-slate-200">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+    // --- GLOBALS ---
+    let currentDashId = null;
+    let isEditMode = false;
+    
+    
+    const API = 'api.php?action='; 
+    const MQTT_BROKER = "test.mosquitto.org";
+    const MQTT_PORT = 8081;
+    //const MQTT_TOPIC = "testxyz";
+    let currentTopic = null; // <--- ADD THIS to track active subscription
+    
+    let client;
+    const widgetRegistry = new Map();
+    const DEFAULT_LOC = { lat: 10.7905, lng: 78.7047 };
+
+    // --- GRID SETUP ---
+    const grid = GridStack.init({ column: 12, cellHeight: 100, margin: 10, float: true, disableResize: true, disableDrag: true, animate: true });
+
+    /* ==================== SCREEN 1: LIST LOGIC ==================== */
+    async function loadList() {
+        document.getElementById('screen-list').classList.remove('hidden');
+        document.getElementById('screen-workspace').classList.add('hidden');
+        
+        const res = await fetch(`${API}list_dashboards`);
+        
+        const list = await res.json();
+        const container = document.getElementById('dashboard-grid');
+        container.innerHTML = '';
+
+        if(!list || list.length === 0) {
+            container.innerHTML = `<div class="col-span-4 text-center py-12 text-slate-400">No dashboards found.</div>`;
+        } else {
+            list.forEach(d => {
+                const card = document.createElement('div');
+                card.className = "dash-card group";
+                card.onclick = (e) => { if(!e.target.closest('.trash-btn')) openWorkspace(d.id); };
+                card.innerHTML = `
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-red-600 transition">${d.name}</h3>
+                        <p class="text-xs text-slate-400 mt-1">ID: ${d.id}</p>
+                    </div>
+                    <div class="flex justify-between items-end relative z-10">
+                        <span class="bg-slate-100 text-slate-500 text-[10px] px-2 py-1 rounded">Updated: ${d.updated_at || 'Now'}</span>
+                        <button class="trash-btn text-slate-300 hover:text-red-500 p-2" onclick="deleteDashboard('${d.id}', event)"><i class="ph ph-trash text-xl"></i></button>
+                    </div>
+                    <i class="ph ph-sliders bg-icon"></i>
+                `;
+                container.appendChild(card);
+            });
+        }
+    }
+
+    async function createNewDashboard() {
+        const name = prompt("Dashboard Name:", "Factory Line 1");
+        if(!name) return;
+        const newId = 'dash_' + Date.now();
+        await fetch(`${API}save_dashboard`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: newId, name: name, data: [] })
+        });
+        openWorkspace(newId); // Immediately open the new dashboard
+    }
+
+    /* ==================== SCREEN 2: WORKSPACE LOGIC ==================== */
+    async function openWorkspace(id) {
+        currentDashId = id;
+        
+        // --- MQTT SUBSCRIPTION SWITCH ---
+        if(client && client.isConnected()) {
+            if(currentTopic) client.unsubscribe(currentTopic); // Unsub from previous
+            currentTopic = id; // Topic is now the Dashboard ID
+            client.subscribe(currentTopic);
+            console.log("Switched Topic to:", currentTopic);
+        }
+        // -------------------------------
+
+        // Switch Views
+        document.getElementById('screen-list').classList.add('hidden');
+        document.getElementById('screen-workspace').classList.remove('hidden');
+        document.getElementById('workspace-title').innerText = "Loading...";
+        
+        // ... (Rest of the existing openWorkspace code) ...
+
+        // Reset Grid & State
+        grid.removeAll();
+        widgetRegistry.clear();
+        setEditMode(false); // Default to Live Mode
+
+        // Load Data
+        const res = await fetch(`${API}get_dashboard&id=${id}`);
+        if(!res.ok) { alert("Load Failed"); closeWorkspace(); return; }
+        
+        const dash = await res.json();
+        document.getElementById('workspace-title').innerText = dash.name;
+
+        // Populate Grid
+        let widgets = [];
+        try { widgets = JSON.parse(dash.data); } catch(e) {}
+        if(widgets) {
+            widgets.forEach(item => {
+                 const html = getWidgetHTML(item.id, item.type, item.title, item);
+                 grid.addWidget({ w: item.w, h: item.h, x: item.x, y: item.y, content: html, id: item.id });
+                 setTimeout(() => initWidgetInstance(item.id, item), 100);
+            });
+        }
+    }
+
+    function closeWorkspace() {
+        // Unsubscribe to stop receiving data for this dashboard
+        if(client && client.isConnected() && currentTopic) {
+            client.unsubscribe(currentTopic);
+            currentTopic = null;
+        }
+
+        currentDashId = null;
+        loadList(); 
+    }
+
+    function setEditMode(enable) {
+        isEditMode = enable;
+        const palette = document.getElementById('widget-palette');
+        const btn = document.getElementById('mode-btn');
+        const saveBtn = document.getElementById('btn-save');
+        
+        if(isEditMode) {
+            document.body.classList.add('edit-mode');
+            palette.classList.remove('hidden');
+            saveBtn.classList.remove('hidden');
+            btn.innerHTML = '<i class="ph ph-x"></i> Cancel Edit';
+            btn.classList.add('bg-slate-100');
+            grid.enableMove(true); grid.enableResize(true);
+        } else {
+            document.body.classList.remove('edit-mode');
+            palette.classList.add('hidden');
+            saveBtn.classList.add('hidden');
+            btn.innerHTML = '<i class="ph ph-pencil-simple"></i> Edit Layout';
+            btn.classList.remove('bg-slate-100');
+            grid.enableMove(false); grid.enableResize(false);
+        }
+    }
+
+    function toggleMode() {
+        setEditMode(!isEditMode);
+    }
+
+    async function saveCurrentDashboard() {
+        if(!currentDashId) return;
+        
+        const saveData = [];
+        
+        grid.engine.nodes.forEach(node => {
+            const id = node.el.getAttribute('gs-id');
+            const w = widgetRegistry.get(id);
+            
+            if(w) {
+                // FIX: Only save the specific config properties.
+                // Do NOT use { ...w } because it includes 'w.instance' (the heavy chart/map object)
+                saveData.push({ 
+                    id: w.id,
+                    type: w.type,
+                    title: w.title,
+                    ch: w.ch,
+                    unit: w.unit || '',
+                    min: w.min || 0,
+                    max: w.max || 100,
+                    lat: w.lat || 0,
+                    lng: w.lng || 0,
+                    // GridStack Position Data
+                    x: node.x, 
+                    y: node.y, 
+                    w: node.w, 
+                    h: node.h 
+                });
+            }
+        });
+
+        const currentName = document.getElementById('workspace-title').innerText;
+        
+        try {
+            const res = await fetch(`${API}save_dashboard`, {
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: currentDashId, name: currentName, data: saveData })
+            });
+
+            if(res.ok) {
+                alert("Dashboard Saved Successfully!");
+                setEditMode(false); // Exit edit mode
+            } else {
+                alert("Error Saving: Server rejected data");
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Save Failed: " + e.message);
+        }
+    }
+
+    async function deleteDashboard(id, e) {
+        e.stopPropagation();
+        if(!confirm("Delete this dashboard?")) return;
+        await fetch(`${API}delete_dashboard&id=${id}`, { method: 'DELETE' });
+        loadList();
+    }
+
+    /* ==================== WIDGET & MQTT LOGIC (Same as before) ==================== */
+    function getWidgetHTML(id, type, title, config) {
+        const { ch=0, unit='', min=0, max=100 } = config;
+        let c = '';
+        if (type.includes('gauge') || type === 'linechart') c = `<div id="${id}_chart" class="w-full h-full"></div>`;
+        else if (type === 'map') c = `<div id="${id}_map" class="w-full h-full z-0"></div>`;
+        else if (type === 'slider') c = `<div class="flex flex-col items-center justify-center h-full w-full px-[5cqmin] relative"><input type="range" id="${id}_input" min="${min}" max="${max}" class="w-full appearance-none bg-transparent cursor-pointer z-10" style="height: 15cqmin;" onchange="publishData('${id}', this.value)" oninput="handleLocalInput('${id}', this.value)"><div class="absolute w-[90%] h-[6cqmin] bg-slate-300 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] border-b border-slate-100 top-1/2 -translate-y-1/2 z-0"></div><style> #${id}_input::-webkit-slider-thumb { -webkit-appearance: none; height: 22cqmin; width: 14cqmin; border-radius: 6px; background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); border: 1px solid #94a3b8; box-shadow: 0 6px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8); margin-top: -8cqmin; background-image: repeating-linear-gradient(90deg, transparent, transparent 20%, #94a3b8 20%, #94a3b8 40%); background-size: 50% 40%; background-position: center; background-repeat: no-repeat; } </style><div class="flex justify-between w-full mt-[8cqmin] font-mono text-slate-500 font-bold" style="font-size: 7cqmin; line-height: 1;"><span id="${id}_min_lbl" class="text-slate-400">${min}</span><div class="bg-slate-800 text-emerald-400 px-2 rounded border border-slate-600 shadow-inner flex items-center"><span id="${id}_val" style="font-size: 9cqmin;">0</span></div><span id="${id}_max_lbl" class="text-slate-400">${max}</span></div></div>`;
+        else if (type === 'slideswitch') c = `<div class="flex flex-col items-center justify-center h-full gap-[3cqmin]"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="${id}_input" class="sr-only peer" onchange="publishData('${id}', this.checked ? 1 : 0)"><div class="bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all after:shadow-sm shadow-inner" style="width: 50cqmin; height: 28cqmin; --handle-size: 22cqmin; --handle-pad: 3cqmin;"></div><style> #${id}_input ~ div::after { height: var(--handle-size); width: var(--handle-size); top: var(--handle-pad); left: var(--handle-pad); } #${id}_input:checked ~ div::after { transform: translateX(22cqmin) !important; } </style></label><span class="font-bold text-slate-400 uppercase tracking-wider" style="font-size: 10cqmin;">Toggle</span></div>`;
+        else if (type === 'tactswitch') c = `<div class="flex flex-col items-center justify-center h-full"><button id="${id}_btn" class="tact-btn rounded-full text-slate-500 flex items-center justify-center transition-all duration-100 active:!bg-rose-500 active:!bg-none active:text-white active:shadow-[inset_0_4px_8px_rgba(0,0,0,0.3)]" style="width: 55cqmin; height: 55cqmin;" onmousedown="publishData('${id}', 1)" onmouseup="publishData('${id}', 0)" onmouseleave="publishData('${id}', 0)"><i class="ph ph-power" style="font-size: 28cqmin; font-weight: bold;"></i></button></div>`;
+        else if (type === 'pushbutton') c = `<div class="flex flex-col items-center justify-center h-full"><button id="${id}_btn" class="btn-push rounded text-slate-600 font-bold uppercase tracking-widest border border-slate-300" style="width: 70cqw; height: 30cqh; font-size: 10cqmin;" onclick="togglePush('${id}')">OFF</button></div>`;
+        else if (type === 'led') c = `<div class="flex flex-col items-center justify-center h-full"><div class="bg-slate-100 rounded-lg shadow-inner border border-slate-200 flex items-center justify-center" style="padding: 5cqmin;"><div id="${id}_led" class="led-bulb" style="width: 35cqmin; height: 35cqmin;"></div></div></div>`;
+        else if (type === 'rgb') c = `<div class="flex items-center justify-center h-full"><div class="bg-white rounded-full shadow-md border border-slate-100 p-[1cqmin]"><div id="${id}_rgb" class="rounded-full bg-slate-200 shadow-inner border border-slate-300 transition-colors duration-300 flex items-center justify-center" style="width: 45cqmin; height: 45cqmin;"><i class="ph ph-lightbulb text-white/50 drop-shadow-md" style="font-size: 25cqmin;"></i></div></div></div>`;
+        else if (type === 'label') c = `<div class="flex flex-col items-center justify-center h-full w-full px-4"><div class="lcd-screen w-full flex items-center justify-end px-3" style="height: 40cqh;"><span id="${id}_val" class="tracking-widest" style="font-size: 25cqh; line-height: 1;">00.0</span><span id="${id}_unit" class="ml-1 opacity-70" style="font-size: 10cqh; margin-top: 10cqh;">${unit}</span></div></div>`;
+        else if (type === 'terminal') c = `<div id="${id}_term" class="terminal-log">System Ready...<br></div>`;
+        else if (type === 'input') {
+    c = `
+      <div class="flex flex-col items-center justify-center h-full w-full px-4 gap-2">
+        
+        <div class="flex w-full shadow-sm rounded-md overflow-hidden border border-slate-300">
+            <input type="text" id="${id}_txt" 
+                   placeholder="Enter value..." 
+                   class="w-full px-3 py-2 bg-slate-50 text-slate-700 text-sm outline-none focus:bg-white focus:inner-shadow transition font-mono"
+                   onkeydown="if(event.key==='Enter') handleSendInput('${id}')">
+            
+            <button onclick="handleSendInput('${id}')" 
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 flex items-center justify-center transition active:bg-red-800 border-l border-red-800">
+                <i class="ph ph-paper-plane-right text-lg"></i>
+            </button>
+        </div>
+
+        <div class="text-[10px] text-slate-400 font-mono tracking-tight flex w-full justify-between">
+            <span>CH: ${ch}</span>
+            <span>Sent: <span id="${id}_last" class="text-red-600 font-bold">-</span></span>
+        </div>
+
+      </div>`;
+  }
+
+        return `<div class="grid-stack-item-content"><div class="widget-header"><span class="widget-title" id="${id}_title_disp">${title}</span><div class="edit-tools"><button onclick="openSettings('${id}')" class="text-slate-400 hover:text-red-600 p-1"><i class="ph ph-gear text-lg"></i></button><button onclick="deleteWidget(this)" class="text-slate-400 hover:text-red-500 p-1"><i class="ph ph-trash text-lg"></i></button></div></div><div class="widget-body">${c}</div></div>`;
+    }
+
+    function initWidgetInstance(id, config) {
+        const el = document.getElementById(`${id}_chart`);
+        const w = { ...config, dataHistory: config.dataHistory || [] };
+        if (w.type.includes('gauge') && el) { w.instance = echarts.init(el); renderGauge(w, 0); new ResizeObserver(() => w.instance.resize()).observe(el); }
+        else if (w.type === 'linechart' && el) { w.instance = echarts.init(el); w.instance.setOption({ grid: { top: 10, bottom: 20, left: 30, right: 10 }, xAxis: { type: 'category', show: false }, yAxis: { type: 'value', splitLine: { lineStyle: { color: '#f1f5f9' } } }, series: [{ type: 'line', data: [], smooth: true, showSymbol: false, itemStyle: { color: '#06b6d4' }, areaStyle: { color: '#ecfeff' } }] }); new ResizeObserver(() => w.instance.resize()).observe(el); }
+        else if (w.type === 'map') { const mapEl = document.getElementById(`${id}_map`); if (mapEl) { const map = L.map(mapEl, { zoomControl: false, attributionControl: false }).setView([w.lat, w.lng], 13); L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(map); w.marker = L.marker([w.lat, w.lng]).addTo(map); w.instance = map; new ResizeObserver(() => map.invalidateSize()).observe(mapEl); } }
+        widgetRegistry.set(id, w);
+    }
+    function renderGauge(w, val) {
+        if(!w.instance) return; const is360 = w.type === 'gauge360';
+        w.instance.setOption({ series: [{ type: 'gauge', radius: '90%', center: ['50%', '55%'], startAngle: is360 ? 90 : 180, endAngle: is360 ? -269.9 : 0, min: w.min, max: w.max, pointer: { show: is360, itemStyle: { color: '#6366f1' } }, progress: { show: true, width: 14, itemStyle: { color: is360 ? '#fbbf24' : '#6366f1' } }, axisLine: { lineStyle: { width: 14, color: [[1, '#f1f5f9']] } }, axisTick: { show: false }, splitLine: { show: false }, axisLabel: { show: false }, detail: { formatter: (v) => `${parseFloat(v).toFixed(1)}\n${w.unit}`, fontSize: 14, offsetCenter: [0, '35%'], color: '#475569', lineHeight: 18 }, data: [{ value: val }] }] });
+    }
+
+    function initMQTT() {
+        const clientId = "scada_" + Math.random().toString(16).substr(2, 8);
+        client = new Paho.MQTT.Client(MQTT_BROKER, Number(MQTT_PORT), clientId);
+
+        client.onConnectionLost = (resp) => {
+            console.log("MQTT Lost");
+            document.getElementById("mqtt-status").innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500"></div> Disconnected`;
+            document.getElementById("mqtt-status").classList.remove("text-emerald-600");
+            document.getElementById("mqtt-status").classList.add("text-red-600");
+            setTimeout(initMQTT, 5000);
+        };
+
+        client.onMessageArrived = (message) => {
+            try { updateWidgets(JSON.parse(message.payloadString)); } catch (e) {}
+        };
+
+        const connectOptions = {
+            onSuccess: () => {
+                document.getElementById("mqtt-status").innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> Connected`;
+                document.getElementById("mqtt-status").classList.remove("text-red-600");
+                document.getElementById("mqtt-status").classList.add("text-emerald-600");
+                console.log("MQTT Connected");
+                
+                // If a dashboard is already open (e.g. after reload), subscribe to it immediately
+                if(currentDashId) {
+                    currentTopic = currentDashId;
+                    client.subscribe(currentTopic);
+                    console.log("Subscribed to:", currentTopic);
+                }
+            },
+            onFailure: (e) => { console.log("Conn Failed", e); setTimeout(initMQTT, 5000); },
+            useSSL: true
+        };
+        client.connect(connectOptions);
+    }
+    function updateWidgets(data) {
+        widgetRegistry.forEach(w => {
+            const val = data[w.ch]; if (val === undefined) return;
+            if (w.type.includes('gauge')) renderGauge(w, parseFloat(val));
+            else if (w.type === 'linechart') { w.dataHistory.push(val); if (w.dataHistory.length > 30) w.dataHistory.shift(); w.instance.setOption({ series: [{ data: w.dataHistory }] }); }
+            else if (w.type === 'label') { const el = document.getElementById(`${w.id}_val`); if(el) el.innerText = typeof val === 'number' ? val.toFixed(1) : val; }
+            else if (w.type === 'led') { const el = document.getElementById(`${w.id}_led`); if(val == 1 || val == "1" || val == true) el.classList.add('led-on'); else el.classList.remove('led-on'); }
+            else if (w.type === 'rgb') {
+                const el = document.getElementById(`${w.id}_rgb`);
+                if (val === 0 || val === '0' || val === 'off' || val === false) { el.style.backgroundColor = '#e2e8f0'; el.style.boxShadow = 'inset 0 2px 5px rgba(0,0,0,0.1)'; el.querySelector('i').style.color = 'rgba(255,255,255,0.5)'; el.querySelector('i').style.textShadow = 'none'; } 
+                else { el.style.backgroundColor = val; el.style.boxShadow = `0 0 15px ${val}, inset 0 2px 5px rgba(255,255,255,0.4)`; el.querySelector('i').style.color = '#ffffff'; el.querySelector('i').style.textShadow = `0 0 5px ${val}`; }
+            }
+            else if (w.type === 'map' && typeof val === 'string' && val.includes(',')) { const [lat, lng] = val.split(',').map(Number); w.instance.setView([lat, lng], 13); w.marker.setLatLng([lat, lng]); }
+            else if (w.type === 'terminal') { const t = document.getElementById(`${w.id}_term`); t.innerHTML += `<div>> [CH${w.ch}] ${val}</div>`; t.scrollTop = t.scrollHeight; }
+        });
+    }
+    
+    function handleSendInput(id) {
+    const inputEl = document.getElementById(`${id}_txt`);
+    const val = inputEl.value;
+    
+    // Prevent sending empty data
+    if(val.trim() === '') return;
+
+    // Publish to MQTT
+    publishData(id, val);
+
+    // Update the "Sent" label for visual feedback
+    const lastEl = document.getElementById(`${id}_last`);
+    if(lastEl) lastEl.innerText = val;
+    
+    // Optional: visual flash on the input to confirm send
+    inputEl.style.backgroundColor = "#dcfce7"; // flash green
+    setTimeout(() => { inputEl.style.backgroundColor = ""; }, 200);
+}
+
+
+    function publishData(id, value) {
+        if (!client || !client.isConnected()) return;
+        const w = widgetRegistry.get(id);
+        
+        // Use currentDashId as the topic
+        if (w && currentDashId) {
+            const message = new Paho.MQTT.Message(JSON.stringify({ [w.ch]: value }));
+            message.destinationName = currentDashId; // <--- Send to Dash ID
+            client.send(message);
+        }
+    }
+
+    // Helpers & Modal
+    function addWidget(type) {
+        const id = `w_${Date.now()}`;
+        let w=3, h=3, title="Widget";
+        if(type.includes('gauge')) { title="Pressure"; w=3; h=3; }
+        if(type === 'linechart') { title="Trend"; w=6; h=4; }
+        if(type === 'slider') { title="Level Set"; h=2; }
+        if(type === 'slideswitch') { title="Pump SW"; w=2; h=2; }
+        if(type === 'tactswitch' || type === 'pushbutton') { title="Control"; w=2; h=2; }
+        if(type === 'led' || type === 'rgb') { title="Status"; w=2; h=2; }
+        if(type === 'label') { title="Voltage"; w=2; h=2; }
+        if(type === 'terminal') { title="SysLog"; w=5; h=3; }
+        if(type === 'map') { title="Location"; w=5; h=4; }
+        if(type === 'input') { title="Input"; w=4; h=2; }
+        const config = { id, type, title, ch: 0, min: 0, max: 100, unit: '', lat: DEFAULT_LOC.lat, lng: DEFAULT_LOC.lng, dataHistory: [] };
+        grid.addWidget({ w, h, content: getWidgetHTML(id, type, title, config), id });
+        setTimeout(() => initWidgetInstance(id, config), 100);
+    }
+    function openSettings(id) {
+        currentEditId = id; const w = widgetRegistry.get(id); const c = document.getElementById('modal-fields'); c.innerHTML = '';
+        c.innerHTML += `<div class="form-group w-full"><label class="form-label">Name</label><input type="text" id="inp_title" value="${w.title}" class="form-input"></div>`;
+        c.innerHTML += `<div class="form-group w-full"><label class="form-label">Channel ID</label><input type="number" id="inp_ch" value="${w.ch}" class="form-input"></div>`;
+        if(['gauge360','gauge180','slider','label'].includes(w.type)) c.innerHTML += `<div class="form-group w-full"><label class="form-label">Unit</label><input type="text" id="inp_unit" value="${w.unit}" class="form-input"></div>`;
+        if(['gauge360','gauge180','slider'].includes(w.type)) c.innerHTML += `<div class="flex gap-2"><div class="form-group w-full"><label class="form-label">Min</label><input type="number" id="inp_min" value="${w.min}" class="form-input"></div><div class="form-group w-full"><label class="form-label">Max</label><input type="number" id="inp_max" value="${w.max}" class="form-input"></div></div>`;
+        if(w.type === 'map') c.innerHTML += `<div class="flex gap-2"><div class="form-group w-full"><label class="form-label">Lat</label><input type="number" id="inp_lat" value="${w.lat}" step="any" class="form-input"></div><div class="form-group w-full"><label class="form-label">Lng</label><input type="number" id="inp_lng" value="${w.lng}" step="any" class="form-input"></div></div>`;
+        document.getElementById('config-modal').style.display = 'flex';
+    }
+    function closeModal() { document.getElementById('config-modal').style.display = 'none'; }
+    function saveModal() {
+        const w = widgetRegistry.get(currentEditId);
+        if(document.getElementById('inp_title')) w.title = document.getElementById('inp_title').value;
+        if(document.getElementById('inp_ch')) w.ch = parseInt(document.getElementById('inp_ch').value) || 0;
+        if(document.getElementById('inp_unit')) w.unit = document.getElementById('inp_unit').value;
+        if(document.getElementById('inp_min')) w.min = parseFloat(document.getElementById('inp_min').value);
+        if(document.getElementById('inp_max')) w.max = parseFloat(document.getElementById('inp_max').value);
+        if(document.getElementById('inp_lat')) w.lat = parseFloat(document.getElementById('inp_lat').value);
+        if(document.getElementById('inp_lng')) w.lng = parseFloat(document.getElementById('inp_lng').value);
+        document.getElementById(`${currentEditId}_title_disp`).innerText = w.title;
+        if(w.type.includes('gauge')) renderGauge(w, 0);
+        if(w.type === 'label') { const unitEl = document.getElementById(`${currentEditId}_unit`); if(unitEl) unitEl.innerText = w.unit; }
+        if(w.type === 'slider') { const rangeInput = document.getElementById(`${currentEditId}_input`); if(rangeInput) { rangeInput.min = w.min; rangeInput.max = w.max; } const minLabel = document.getElementById(`${currentEditId}_min_lbl`); if(minLabel) minLabel.innerText = w.min; const maxLabel = document.getElementById(`${currentEditId}_max_lbl`); if(maxLabel) maxLabel.innerText = w.max; }
+        if(w.type === 'map' && w.instance) { w.instance.setView([w.lat, w.lng], 13); w.marker.setLatLng([w.lat, w.lng]); }
+        closeModal();
+    }
+    function handleLocalInput(id, val) { const el = document.getElementById(`${id}_val`); if(el) el.innerText = val; }
+    function togglePush(id) { const btn = document.getElementById(`${id}_btn`); btn.classList.toggle('btn-active-state'); btn.classList.toggle('btn-active-color'); const isActive = btn.classList.contains('btn-active-state'); btn.innerText = isActive ? "ON" : "OFF"; publishData(id, isActive ? 1 : 0); }
+    function deleteWidget(btn) { const item = btn.closest('.grid-stack-item'); grid.removeWidget(item); widgetRegistry.delete(item.getAttribute('gs-id')); }
+
+    window.addEventListener('DOMContentLoaded', () => { loadList(); initMQTT(); });
+</script>
+</body>
+</html>

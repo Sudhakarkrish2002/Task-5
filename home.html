@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Dashboard - The Ultimate IoT Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .hero-red { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    .footer-dark { background: #0f172a; }
+  </style>
+</head>
+<body class="bg-white text-slate-900">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+          <i class="ph ph-sliders text-white text-lg"></i>
+        </div>
+        <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="home.html" class="text-slate-700 hover:text-red-600 font-medium transition">Home</a>
+        <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
+        <a href="index.html" class="text-slate-700 hover:text-red-600 font-medium transition">My Panels</a>
+        <a href="contact.html" class="text-slate-700 hover:text-red-600 font-medium transition">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section 1 -->
+  <section class="hero-red text-white py-12 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Low-Code IoT Cloud Platform with User Experience at its Core</h1>
+      <p class="text-base text-red-50 mb-6 max-w-2xl mx-auto">Easily build exceptional, fully customizable mobile and web IoT applications. Securely deploy and manage millions of devices worldwide with enterprise-grade security and real-time analytics.</p>
+      <div class="flex gap-3 justify-center">
+        <button class="bg-white text-red-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 transition flex items-center gap-2">
+          <i class="ph ph-play-fill"></i> Start Building Free
+        </button>
+        <button class="bg-red-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-800 transition flex items-center gap-2">
+          <i class="ph ph-download"></i> Watch Demo
+        </button>
+      </div>
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
+          <div class="text-2xl font-bold">0</div>
+          <div class="text-xs text-red-100">Devices Connected</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
+          <div class="text-2xl font-bold">0.0M</div>
+          <div class="text-xs text-red-100">Data Points/Hour</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
+          <div class="text-2xl font-bold">0</div>
+          <div class="text-xs text-red-100">Active Users</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
+          <div class="text-2xl font-bold">99.9%</div>
+          <div class="text-xs text-red-100">Uptime</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Banner -->
+  <section class="hero-red text-white py-8 px-6">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div>
+        <div class="text-2xl font-bold mb-1">6 months</div>
+        <div class="text-sm text-red-100">From idea to product</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold mb-1">70+ years</div>
+        <div class="text-sm text-red-100">Industry experience</div>
+      </div>
+      <div>
+        <div class="text-2xl font-bold mb-1">Award winning</div>
+        <div class="text-sm text-red-100">Startup solutions</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-12 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-3">IoT Complexity Solved at Every Stage</h2>
+      <p class="text-sm text-slate-600 text-center max-w-2xl mx-auto mb-10">Manage the full IoT lifecycle from prototype to production with enterprise security throughout. Build high-quality mobile apps and cloud services, run fleet tests, deploy seamlessly, market to users, manage devices, data, configurations and updates, and analyze and grow your IoT business.</p>
+      
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="border-2 border-red-200 rounded-lg p-6 hover:border-red-400 transition">
+          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-device-mobile text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Mobile Apps</h3>
+          <p class="text-sm text-slate-600">Build high-quality apps at no-code speed. Customize feature-rich applications without a line of code.</p>
+        </div>
+        <div class="border-2 border-emerald-200 rounded-lg p-6 hover:border-emerald-400 transition">
+          <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-chart-bar text-emerald-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Web Console</h3>
+          <p class="text-sm text-slate-600">Efficiently support and grow your IoT business. Manage every aspect of your connected business, from operations to overall growth.</p>
+        </div>
+        <div class="border-2 border-purple-200 rounded-lg p-6 hover:border-purple-400 transition">
+          <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-users text-purple-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-bold mb-2">User Experience</h3>
+          <p class="text-sm text-slate-600">Seamless and intuitive user experience, out-of-box. Simplify IoT complexity into easy workflows for product managers, engineers, and device users.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Section -->
+  <section class="py-12 px-6 bg-slate-50">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-3">Why Choose Our Platform?</h2>
+      <p class="text-sm text-slate-600 max-w-2xl mx-auto mb-10">We've combined the best features from leading IoT platforms to give you the most comprehensive and user-friendly solution available.</p>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition">
+          <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mb-3">
+            <i class="ph ph-chart-line-up text-red-600 text-lg"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2">Real-Time Analytics</h3>
+          <p class="text-slate-600 text-xs">Advanced data visualization with MATLAB integration and custom analytics</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="ph ph-device-mobile text-emerald-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">No-Code Mobile Apps</h3>
+          <p class="text-slate-600 text-sm">Build beautiful mobile apps with drag-and-drop interface, no coding required</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="ph ph-lightning text-amber-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Instant Device Control</h3>
+          <p class="text-slate-600 text-sm">Real-time remote control and monitoring of your IoT devices</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="ph ph-shield-check text-purple-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Enterprise Security</h3>
+          <p class="text-slate-600 text-sm">Industrial-grade security with encrypted communications and 24/7 monitoring</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="ph ph-globe text-blue-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Global Connectivity</h3>
+          <p class="text-slate-600 text-sm">Support for WiFi, Cellular, LoRaWAN, and Satellite connections worldwide</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <i class="ph ph-circuit-board text-red-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Hardware Agnostic</h3>
+          <p class="text-slate-600 text-sm">Compatible with Arduino, ESP32, Raspberry Pi, and industrial controllers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Started Section -->
+  <section class="py-12 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-3">Get Started in Minutes</h2>
+      <p class="text-sm text-slate-600 mb-8">From device connection to dashboard deployment in just 3 simple steps.</p>
+      
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="ph ph-wifi text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2">Connect Your Device</h3>
+          <p class="text-sm text-slate-600">Use our simple WiFi provisioning to connect any IoT device</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="ph ph-stack text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2">Create Your Dashboard</h3>
+          <p class="text-sm text-slate-600">Drag and drop widgets to build your custom dashboard</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="ph ph-eye text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-bold mb-2">Deploy & Monitor</h3>
+          <p class="text-sm text-slate-600">Launch your dashboard and start monitoring in real-time</p>
+        </div>
+      </div>
+      
+      <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition">
+        Start Your First Dashboard →
+      </button>
+    </div>
+  </section>
+
+  <!-- Trusted Section -->
+  <section class="py-12 px-6 bg-slate-50">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-3">Trusted by Developers and Businesses Worldwide</h2>
+      <p class="text-sm text-slate-600 text-center max-w-2xl mx-auto mb-10">We have designed, developed, and tested the building blocks of a complete IoT software solution, so businesses that run on our platform don't have to.</p>
+      
+      <div class="grid md:grid-cols-4 gap-6 mb-10">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-red-600 mb-1">1M+</div>
+          <div class="text-sm text-slate-600">Engineers Worldwide</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-red-600 mb-1">5,000+</div>
+          <div class="text-sm text-slate-600">Companies Building</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-red-600 mb-1">180B+</div>
+          <div class="text-sm text-slate-600">Hardware Requests/Month</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-red-600 mb-1">136</div>
+          <div class="text-sm text-slate-600">Countries</div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+        <h3 class="text-lg font-bold mb-3">Join Our Community</h3>
+        <p class="text-sm text-slate-600 mb-5">Join thousands of developers, makers, and IoT professionals. Over 1,000,000 engineers in 136 countries use our platform.</p>
+        <div class="grid md:grid-cols-2 gap-5">
+          <div class="flex items-start gap-3">
+            <i class="ph ph-device-mobile text-red-600 text-lg"></i>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">No-code mobile apps</h4>
+              <p class="text-xs text-slate-600">Drag-and-drop simplicity</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="ph ph-browser text-red-600 text-lg"></i>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">Cloud web app</h4>
+              <p class="text-xs text-slate-600">Data visualization and device management</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="ph ph-code text-red-600 text-lg"></i>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">HTTPS and MQTT API</h4>
+              <p class="text-xs text-slate-600">Seamless integration</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="ph ph-circuit-board text-red-600 text-lg"></i>
+            <div>
+              <h4 class="text-sm font-semibold mb-1">Hardware Support</h4>
+              <p class="text-xs text-slate-600">Arduino, ESP32, Raspberry Pi, and more</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-12 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-3">Trusted by Developers Worldwide</h2>
+      <p class="text-sm text-slate-600 text-center mb-8">Join thousands of developers building the future of IoT</p>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-slate-50 rounded-lg p-5">
+          <div class="flex gap-1 mb-3">
+            <i class="ph ph-star-fill text-yellow-400 text-sm"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-sm"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-sm"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-sm"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-sm"></i>
+          </div>
+          <p class="text-sm text-slate-700 mb-3 italic">"The platform allows us to quickly and efficiently offer our product to customers."</p>
+          <div class="text-sm font-semibold">Peachie Hytowitz</div>
+          <div class="text-xs text-slate-500">Senior Product Manager at Raypak</div>
+        </div>
+        <div class="bg-slate-50 rounded-xl p-6">
+          <div class="flex gap-1 mb-4">
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+          </div>
+          <p class="text-slate-700 mb-4 italic">"Users are impressed with how easy it is to connect devices to WiFi and native mobile apps."</p>
+          <div class="font-semibold">Daniel Mayer</div>
+          <div class="text-sm text-slate-500">Co-Founder, Co-CEO of Windmill</div>
+        </div>
+        <div class="bg-slate-50 rounded-xl p-6">
+          <div class="flex gap-1 mb-4">
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+            <i class="ph ph-star-fill text-yellow-400 text-xl"></i>
+          </div>
+          <p class="text-slate-700 mb-4 italic">"Rapid development and deployment without an external software team."</p>
+          <div class="font-semibold">Andres Torres</div>
+          <div class="text-sm text-slate-500">CTO at Plantaform Inc.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="hero-red text-white py-12 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Enough Scrolling. Start Building Today!</h2>
+      <p class="text-base text-red-50 mb-6 max-w-2xl mx-auto">Whether you're a small team with big IoT dreams or a large enterprise looking to fast track your IoT product launch, our platform has you covered.</p>
+      <div class="flex gap-3 justify-center">
+        <button class="bg-white text-red-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 transition flex items-center gap-2">
+          <i class="ph ph-code"></i> Start Building Now
+        </button>
+        <button class="bg-red-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-800 transition flex items-center gap-2">
+          <i class="ph ph-eye"></i> View Examples
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-dark text-white py-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+              <i class="ph ph-sliders text-white text-lg"></i>
+            </div>
+            <span class="text-xl font-bold">IoT Dashboard</span>
+          </div>
+          <p class="text-slate-400 text-sm mb-4">The ultimate IoT dashboard platform that combines the best features from leading solutions to give you the most comprehensive and user-friendly experience.</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-twitter-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-youtube-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-linkedin-logo text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition">
+              <i class="ph ph-facebook-logo text-sm"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Platform</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Mobile Apps</a></li>
+            <li><a href="#" class="hover:text-white transition">Features</a></li>
+            <li><a href="#" class="hover:text-white transition">Web Console</a></li>
+            <li><a href="#" class="hover:text-white transition">Cloud Services</a></li>
+            <li><a href="#" class="hover:text-white transition">Connectivity</a></li>
+            <li><a href="#" class="hover:text-white transition">Security</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Developers</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition">API Reference</a></li>
+            <li><a href="#" class="hover:text-white transition">Hardware Support</a></li>
+            <li><a href="#" class="hover:text-white transition">Community</a></li>
+            <li><a href="#" class="hover:text-white transition">Tutorials</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Support</h3>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact Support</a></li>
+            <li><a href="#" class="hover:text-white transition">System Status</a></li>
+            <li><a href="#" class="hover:text-white transition">Release Notes</a></li>
+            <li><a href="#" class="hover:text-white transition">Enterprise</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-slate-400 text-sm">© 2024 IoT Dashboard. All rights reserved.</p>
+          <div class="flex gap-6 text-slate-400 text-sm">
+            <a href="#" class="hover:text-white transition">Privacy Policy</a>
+            <a href="#" class="hover:text-white transition">Terms of Service</a>
+            <a href="#" class="hover:text-white transition">Cookie Policy</a>
+            <a href="#" class="hover:text-white transition">GDPR</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+
