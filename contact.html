@@ -17,7 +17,7 @@
 <body class="bg-white text-slate-900">
 
   <!-- Header -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+  <header class="bg-white border-b border-slate-200 fixed top-0 left-0 right-0 z-50">
     <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
@@ -35,20 +35,29 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-red text-white py-12 px-6">
-    <div class="max-w-5xl mx-auto text-center">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h1>
-      <p class="text-base text-red-50 mb-6 max-w-2xl mx-auto">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+  <section class="relative bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white overflow-hidden py-16 px-6" style="padding-top: 89px;">
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-6">
+        <i class="ph ph-envelope"></i>
+        <span>Contact Us</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">Get in Touch</h1>
+      <div class="w-20 h-1 bg-yellow-300 mx-auto mb-6"></div>
+      <p class="text-lg md:text-xl text-red-50 mb-8 max-w-3xl mx-auto leading-relaxed">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section class="py-12 px-6 bg-white">
+  <section class="py-16 px-6 bg-red-50">
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-8">
         <!-- Contact Form -->
-        <div>
-          <h2 class="text-xl font-bold mb-5 text-slate-900">Send us a Message</h2>
+        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
+          <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+            <i class="ph ph-paper-plane-right"></i>
+            <span>Send Message</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-slate-900">Send us a Message</h2>
           <form class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
@@ -90,8 +99,12 @@
         </div>
 
         <!-- Contact Information -->
-        <div>
-          <h2 class="text-xl font-bold mb-5 text-slate-900">Contact Information</h2>
+        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
+          <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+            <i class="ph ph-info"></i>
+            <span>Contact Info</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-slate-900">Contact Information</h2>
           <p class="text-sm text-slate-600 mb-6">We're here to help! Reach out to us through any of the following channels.</p>
           
           <div class="space-y-5 mb-6">
@@ -155,63 +168,77 @@
   </section>
 
   <!-- Office Locations Section -->
-  <section class="py-12 px-6 bg-slate-50">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-2xl font-bold text-center mb-8 text-slate-900">Our Offices</h2>
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-map-pin"></i>
+          <span>Our Offices</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Our Offices</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+      </div>
       <div class="grid md:grid-cols-3 gap-6">
         <!-- San Francisco -->
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
-          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
-            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4 mx-auto">
+            <i class="ph ph-map-pin text-red-600 text-xl"></i>
           </div>
-          <h3 class="text-base font-bold mb-2 text-slate-900">San Francisco, USA</h3>
-          <p class="text-slate-600 text-xs mb-2">123 Innovation Drive<br>San Francisco, CA 94105</p>
-          <p class="text-xs text-slate-500">Headquarters</p>
+          <h3 class="text-lg font-bold mb-2 text-slate-900">San Francisco, USA</h3>
+          <p class="text-slate-600 text-sm mb-2">123 Innovation Drive<br>San Francisco, CA 94105</p>
+          <p class="text-xs text-red-600 font-semibold">Headquarters</p>
         </div>
 
         <!-- London -->
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
-          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
-            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4 mx-auto">
+            <i class="ph ph-map-pin text-red-600 text-xl"></i>
           </div>
-          <h3 class="text-base font-bold mb-2 text-slate-900">London, UK</h3>
-          <p class="text-slate-600 text-xs mb-2">45 Tech Street<br>London, EC2A 4DP</p>
-          <p class="text-xs text-slate-500">European Office</p>
+          <h3 class="text-lg font-bold mb-2 text-slate-900">London, UK</h3>
+          <p class="text-slate-600 text-sm mb-2">45 Tech Street<br>London, EC2A 4DP</p>
+          <p class="text-xs text-red-600 font-semibold">European Office</p>
         </div>
 
         <!-- Singapore -->
-        <div class="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
-          <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center mb-3">
-            <i class="ph ph-map-pin text-red-600 text-lg"></i>
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4 mx-auto">
+            <i class="ph ph-map-pin text-red-600 text-xl"></i>
           </div>
-          <h3 class="text-base font-bold mb-2 text-slate-900">Singapore</h3>
-          <p class="text-slate-600 text-xs mb-2">78 Marina Bay<br>Singapore 018956</p>
-          <p class="text-xs text-slate-500">Asia Pacific Office</p>
+          <h3 class="text-lg font-bold mb-2 text-slate-900">Singapore</h3>
+          <p class="text-slate-600 text-sm mb-2">78 Marina Bay<br>Singapore 018956</p>
+          <p class="text-xs text-red-600 font-semibold">Asia Pacific Office</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ Section -->
-  <section class="py-12 px-6 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <h2 class="text-2xl font-bold text-center mb-8 text-slate-900">Frequently Asked Questions</h2>
+  <section class="py-16 px-6 bg-red-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-question"></i>
+          <span>FAQ</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Frequently Asked Questions</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+      </div>
       <div class="space-y-4">
-        <div class="border border-slate-200 rounded-lg p-5">
-          <h3 class="text-base font-semibold mb-2 text-slate-900">How quickly can I get started?</h3>
-          <p class="text-sm text-slate-600">You can get started in minutes! Simply sign up for a free account and start building your first dashboard. No credit card required.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+          <h3 class="text-lg font-bold mb-3 text-slate-900">How quickly can I get started?</h3>
+          <p class="text-base text-slate-600 leading-relaxed">You can get started in minutes! Simply sign up for a free account and start building your first dashboard. No credit card required.</p>
         </div>
-        <div class="border border-slate-200 rounded-lg p-5">
-          <h3 class="text-base font-semibold mb-2 text-slate-900">What devices are supported?</h3>
-          <p class="text-sm text-slate-600">We support all major IoT platforms including Arduino, ESP32, Raspberry Pi, and industrial PLCs. Check our hardware compatibility page for the full list.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+          <h3 class="text-lg font-bold mb-3 text-slate-900">What devices are supported?</h3>
+          <p class="text-base text-slate-600 leading-relaxed">We support all major IoT platforms including Arduino, ESP32, Raspberry Pi, and industrial PLCs. Check our hardware compatibility page for the full list.</p>
         </div>
-        <div class="border border-slate-200 rounded-lg p-5">
-          <h3 class="text-base font-semibold mb-2 text-slate-900">Is there a free trial?</h3>
-          <p class="text-sm text-slate-600">Yes! We offer a free tier that includes up to 10 devices and basic features. You can upgrade anytime to unlock advanced features.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+          <h3 class="text-lg font-bold mb-3 text-slate-900">Is there a free trial?</h3>
+          <p class="text-base text-slate-600 leading-relaxed">Yes! We offer a free tier that includes up to 10 devices and basic features. You can upgrade anytime to unlock advanced features.</p>
         </div>
-        <div class="border border-slate-200 rounded-lg p-5">
-          <h3 class="text-base font-semibold mb-2 text-slate-900">Do you offer enterprise support?</h3>
-          <p class="text-sm text-slate-600">Absolutely! Our enterprise plans include dedicated support, custom integrations, and SLA guarantees. Contact our sales team for more information.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+          <h3 class="text-lg font-bold mb-3 text-slate-900">Do you offer enterprise support?</h3>
+          <p class="text-base text-slate-600 leading-relaxed">Absolutely! Our enterprise plans include dedicated support, custom integrations, and SLA guarantees. Contact our sales team for more information.</p>
         </div>
       </div>
     </div>

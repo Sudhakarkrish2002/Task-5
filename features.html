@@ -18,7 +18,7 @@
 <body class="bg-white text-slate-900">
 
   <!-- Header -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+  <header class="bg-white border-b border-slate-200 fixed top-0 left-0 right-0 z-50">
     <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
@@ -36,80 +36,88 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero-red text-white py-12 px-6">
-    <div class="max-w-5xl mx-auto text-center">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">Complete IoT Solution Platform</h1>
-      <p class="text-base text-red-50 mb-6 max-w-2xl mx-auto">Our comprehensive platform provides everything you need to build, deploy, and scale IoT solutions.</p>
-      <button class="bg-white text-red-600 px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 transition flex items-center gap-2 mx-auto">
-        <i class="ph ph-arrow-right"></i> Start Building
-      </button>
+  <section class="relative bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white overflow-hidden py-16 px-6" style="padding-top: 89px;">
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-6">
+        <i class="ph ph-sparkle"></i>
+        <span>Complete Platform</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">Complete IoT Solution Platform</h1>
+      <div class="w-20 h-1 bg-yellow-300 mx-auto mb-6"></div>
+      <p class="text-lg md:text-xl text-red-50 mb-8 max-w-3xl mx-auto leading-relaxed">Our comprehensive platform provides everything you need to build, deploy, and scale IoT solutions.</p>
+      <a href="index.html" class="inline-flex items-center gap-2 bg-white text-red-600 px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-red-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5">
+        <i class="ph ph-rocket-launch text-lg"></i> 
+        <span>Start Building</span>
+      </a>
     </div>
   </section>
 
   <!-- Main Heading Section -->
-  <section class="py-10 px-6 bg-white">
-    <div class="max-w-5xl mx-auto text-center">
-      <div class="flex items-center justify-center gap-2 mb-3">
-        <i class="ph ph-chart-bar text-red-600 text-lg"></i>
-        <h2 class="text-2xl font-bold text-slate-900">Real-Time Analytics</h2>
+  <section class="py-16 px-6 bg-red-50">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+        <i class="ph ph-chart-bar"></i>
+        <span>Analytics</span>
       </div>
-      <p class="text-sm text-slate-600 max-w-2xl mx-auto">Advanced data visualization and analytics platform</p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Real-Time Analytics</h2>
+      <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+      <p class="text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">Advanced data visualization and analytics platform</p>
     </div>
   </section>
 
   <!-- Feature Cards Section 1 -->
-  <section class="py-10 px-6 bg-white">
+  <section class="py-16 px-6 bg-white">
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Real-Time Data Streaming Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-waveform text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-waveform text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">Real-Time Data Streaming</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Real-Time Data Streaming</h3>
           <p class="text-sm text-slate-600 mb-4">Process and visualize data as it arrives from your devices with sub-second latency</p>
-          <ul class="space-y-2">
-            <li class="flex items-center gap-2">
-              <i class="ph ph-check-circle text-green-500 text-sm"></i>
-              <span class="text-sm text-slate-700">Sub-100ms data processing</span>
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
+            <li class="flex items-center gap-3">
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
+              <span class="text-slate-700">Sub-100ms data processing</span>
             </li>
-            <li class="flex items-center gap-2">
-              <i class="ph ph-check-circle text-green-500 text-sm"></i>
-              <span class="text-sm text-slate-700">Live data visualization</span>
+            <li class="flex items-center gap-3">
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
+              <span class="text-slate-700">Live data visualization</span>
             </li>
-            <li class="flex items-center gap-2">
-              <i class="ph ph-check-circle text-green-500 text-sm"></i>
-              <span class="text-sm text-slate-700">Real-time alerts and notifications</span>
+            <li class="flex items-center gap-3">
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
+              <span class="text-slate-700">Real-time alerts and notifications</span>
             </li>
-            <li class="flex items-center gap-2">
-              <i class="ph ph-check-circle text-green-500 text-sm"></i>
-              <span class="text-sm text-slate-700">Streaming analytics engine</span>
+            <li class="flex items-center gap-3">
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
+              <span class="text-slate-700">Streaming analytics engine</span>
             </li>
           </ul>
         </div>
 
         <!-- Advanced Visualizations Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-chart-bar text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-chart-bar text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">Advanced Visualizations</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Advanced Visualizations</h3>
           <p class="text-sm text-slate-600 mb-4">Create stunning charts, graphs, and dashboards with our comprehensive visualization library</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Interactive charts and graphs</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Custom dashboard layouts</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">3D visualizations</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Geographic data mapping</span>
             </li>
           </ul>
@@ -119,58 +127,58 @@
   </section>
 
   <!-- Feature Cards Section 2 -->
-  <section class="py-10 px-6 bg-slate-50">
+  <section class="py-16 px-6 bg-red-50">
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Predictive Analytics Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-chart-line-up text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-chart-line-up text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">Predictive Analytics</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Predictive Analytics</h3>
           <p class="text-sm text-slate-600 mb-4">Leverage machine learning to predict trends, anomalies, and future outcomes</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Anomaly detection</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Trend forecasting</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Predictive maintenance</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Machine learning models</span>
             </li>
           </ul>
         </div>
 
         <!-- Data Management Card -->
-        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-          <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-            <i class="ph ph-database text-red-600 text-3xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-database text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-3 text-slate-900">Data Management</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Data Management</h3>
           <p class="text-slate-600 mb-6">Store, process, and analyze massive amounts of IoT data with enterprise-grade infrastructure</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Time-series databases</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Data compression and archiving</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Query optimization</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Data export and APIs</span>
             </li>
           </ul>
@@ -180,65 +188,67 @@
   </section>
 
   <!-- Device Management Section -->
-  <section class="py-10 px-6 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-8">
-        <div class="flex items-center justify-center gap-2 mb-3">
-          <i class="ph ph-device-mobile text-red-600 text-lg"></i>
-          <h2 class="text-2xl font-bold text-slate-900">Device Management</h2>
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-device-mobile"></i>
+          <span>Device Management</span>
         </div>
-        <p class="text-sm text-slate-600 max-w-2xl mx-auto">Seamlessly connect, monitor, and control your IoT devices from anywhere</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Device Management</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+        <p class="text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">Seamlessly connect, monitor, and control your IoT devices from anywhere</p>
       </div>
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Remote Control Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-sliders-horizontal text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-sliders-horizontal text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">Remote Device Control</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Remote Device Control</h3>
           <p class="text-sm text-slate-600 mb-4">Control your IoT devices remotely with real-time commands and configuration updates</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Real-time device commands</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">OTA firmware updates</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Device configuration management</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Bulk device operations</span>
             </li>
           </ul>
         </div>
 
         <!-- Device Monitoring Card -->
-        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-          <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-            <i class="ph ph-monitor text-red-600 text-3xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-monitor text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-3 text-slate-900">Device Monitoring</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Device Monitoring</h3>
           <p class="text-slate-600 mb-6">Monitor device health, status, and performance metrics in real-time</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Device health dashboards</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Status tracking and alerts</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Performance metrics</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Device grouping and tags</span>
             </li>
           </ul>
@@ -248,65 +258,67 @@
   </section>
 
   <!-- Security & Connectivity Section -->
-  <section class="py-10 px-6 bg-slate-50">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-8">
-        <div class="flex items-center justify-center gap-2 mb-3">
-          <i class="ph ph-shield-check text-red-600 text-lg"></i>
-          <h2 class="text-2xl font-bold text-slate-900">Security & Connectivity</h2>
+  <section class="py-16 px-6 bg-red-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-shield-check"></i>
+          <span>Security & Connectivity</span>
         </div>
-        <p class="text-sm text-slate-600 max-w-2xl mx-auto">Enterprise-grade security with global connectivity options</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Security & Connectivity</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+        <p class="text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">Enterprise-grade security with global connectivity options</p>
       </div>
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Enterprise Security Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-shield-check text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-shield-check text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">Enterprise Security</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Enterprise Security</h3>
           <p class="text-sm text-slate-600 mb-4">Industrial-grade security with end-to-end encryption and compliance</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">End-to-end encryption</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">TLS/SSL secure connections</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Role-based access control</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">GDPR and SOC 2 compliant</span>
             </li>
           </ul>
         </div>
 
         <!-- Global Connectivity Card -->
-        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-          <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-            <i class="ph ph-globe text-red-600 text-3xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-globe text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-3 text-slate-900">Global Connectivity</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">Global Connectivity</h3>
           <p class="text-slate-600 mb-6">Support for multiple connectivity protocols worldwide</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">WiFi, Cellular, LoRaWAN</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Satellite connectivity</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Multi-protocol support</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Global data centers</span>
             </li>
           </ul>
@@ -316,65 +328,67 @@
   </section>
 
   <!-- Mobile Apps & APIs Section -->
-  <section class="py-10 px-6 bg-white">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-8">
-        <div class="flex items-center justify-center gap-2 mb-3">
-          <i class="ph ph-device-mobile text-red-600 text-lg"></i>
-          <h2 class="text-2xl font-bold text-slate-900">Mobile Apps & APIs</h2>
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-device-mobile"></i>
+          <span>Mobile & APIs</span>
         </div>
-        <p class="text-sm text-slate-600 max-w-2xl mx-auto">Build native mobile apps and integrate with powerful APIs</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Mobile Apps & APIs</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+        <p class="text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">Build native mobile apps and integrate with powerful APIs</p>
       </div>
       <div class="grid md:grid-cols-2 gap-6">
         <!-- No-Code Mobile Apps Card -->
-        <div class="bg-white rounded-lg p-6 shadow-lg border border-slate-200">
-          <div class="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
-            <i class="ph ph-device-mobile text-red-600 text-xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-device-mobile text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-lg font-bold mb-2 text-slate-900">No-Code Mobile Apps</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">No-Code Mobile Apps</h3>
           <p class="text-sm text-slate-600 mb-4">Build beautiful native mobile apps without writing a single line of code</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Drag-and-drop interface builder</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">iOS and Android native apps</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Custom branding and themes</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Push notifications</span>
             </li>
           </ul>
         </div>
 
         <!-- REST & MQTT APIs Card -->
-        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-          <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center mb-6">
-            <i class="ph ph-code text-red-600 text-3xl"></i>
+        <div class="bg-white rounded-xl p-8 shadow-lg border-2 border-red-200 hover:border-red-500 hover:shadow-xl transition-all duration-300 text-center">
+          <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i class="ph ph-code text-red-600 text-2xl"></i>
           </div>
-          <h3 class="text-2xl font-bold mb-3 text-slate-900">REST & MQTT APIs</h3>
+          <h3 class="text-xl font-bold mb-3 text-slate-900">REST & MQTT APIs</h3>
           <p class="text-slate-600 mb-6">Powerful APIs for seamless integration with your existing systems</p>
-          <ul class="space-y-3">
+          <ul class="space-y-3 inline-flex flex-col items-start mx-auto">
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">RESTful HTTP APIs</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">MQTT protocol support</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">WebSocket real-time streams</span>
             </li>
             <li class="flex items-center gap-3">
-              <i class="ph ph-check-circle text-green-500 text-xl"></i>
+              <i class="ph ph-check-circle text-red-500 text-xl"></i>
               <span class="text-slate-700">Comprehensive API documentation</span>
             </li>
           </ul>
@@ -384,23 +398,25 @@
   </section>
 
   <!-- Hardware Support Section -->
-  <section class="py-10 px-6 bg-slate-50">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-8">
-        <div class="flex items-center justify-center gap-2 mb-3">
-          <i class="ph ph-circuit-board text-red-600 text-lg"></i>
-          <h2 class="text-2xl font-bold text-slate-900">Hardware Agnostic</h2>
+  <section class="py-16 px-6 bg-red-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
+          <i class="ph ph-cpu"></i>
+          <span>Hardware Support</span>
         </div>
-        <p class="text-sm text-slate-600 max-w-2xl mx-auto">Compatible with all major IoT hardware platforms</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">Hardware Agnostic</h2>
+        <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+        <p class="text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">Compatible with all major IoT hardware platforms</p>
       </div>
       <div class="grid md:grid-cols-4 gap-4">
         <div class="bg-white rounded-lg p-5 text-center border border-slate-200">
-          <i class="ph ph-circuit-board text-red-600 text-2xl mb-3"></i>
+          <i class="ph ph-cpu text-red-600 text-2xl mb-3"></i>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Arduino</h3>
           <p class="text-xs text-slate-600">Full support for all Arduino boards</p>
         </div>
         <div class="bg-white rounded-lg p-5 text-center border border-slate-200">
-          <i class="ph ph-chip text-red-600 text-2xl mb-3"></i>
+          <i class="ph ph-wifi-high text-red-600 text-2xl mb-3"></i>
           <h3 class="text-sm font-bold text-slate-900 mb-1">ESP32</h3>
           <p class="text-xs text-slate-600">Native ESP32 integration</p>
         </div>
@@ -419,10 +435,10 @@
   </section>
 
   <!-- Live Demo Section -->
-  <section class="py-10 px-6 bg-white">
+  <section class="py-16 px-6 bg-white">
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center gap-2 mb-6">
-        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
         <h2 class="text-xl font-bold text-slate-900">Live Demo</h2>
       </div>
       <div class="grid md:grid-cols-4 gap-4">
@@ -437,32 +453,32 @@
         </div>
 
         <!-- Humidity Card -->
-        <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+        <div class="bg-red-50 rounded-lg p-4 border border-red-200">
           <div class="flex items-center gap-2 mb-3">
-            <i class="ph ph-drop text-blue-600 text-lg"></i>
+            <i class="ph ph-drop text-red-600 text-lg"></i>
             <h3 class="text-sm font-semibold text-slate-900">Humidity</h3>
           </div>
-          <div class="text-2xl font-bold text-blue-600 mb-1">65%</div>
+          <div class="text-2xl font-bold text-red-600 mb-1">65%</div>
           <div class="text-xs text-slate-600">Optimal range</div>
         </div>
 
         <!-- Power Usage Card -->
-        <div class="bg-amber-50 rounded-lg p-4 border border-amber-200">
+        <div class="bg-red-50 rounded-lg p-4 border border-red-200">
           <div class="flex items-center gap-2 mb-3">
-            <i class="ph ph-lightning text-amber-600 text-lg"></i>
+            <i class="ph ph-lightning text-red-600 text-lg"></i>
             <h3 class="text-sm font-semibold text-slate-900">Power Usage</h3>
           </div>
-          <div class="text-2xl font-bold text-amber-600 mb-1">1.2kW</div>
+          <div class="text-2xl font-bold text-red-600 mb-1">1.2kW</div>
           <div class="text-xs text-slate-600">-15% efficiency</div>
         </div>
 
         <!-- Data Rate Card -->
-        <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
+        <div class="bg-red-50 rounded-lg p-4 border border-red-200">
           <div class="flex items-center gap-2 mb-3">
-            <i class="ph ph-database text-purple-600 text-lg"></i>
+            <i class="ph ph-database text-red-600 text-lg"></i>
             <h3 class="text-sm font-semibold text-slate-900">Data Rate</h3>
           </div>
-          <div class="text-2xl font-bold text-purple-600 mb-1">2.4K/s</div>
+          <div class="text-2xl font-bold text-red-600 mb-1">2.4K/s</div>
           <div class="text-xs text-slate-600">Peak performance</div>
         </div>
       </div>
@@ -470,16 +486,23 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="dark-section text-white py-12 px-6">
-    <div class="max-w-5xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-4">Ready to Build Your IoT Solution?</h2>
-      <p class="text-base text-slate-300 mb-6 max-w-2xl mx-auto">Join thousands of developers and enterprises building the future with our comprehensive IoT platform.</p>
-      <div class="flex gap-3 justify-center">
-        <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2">
-          <i class="ph ph-lightning"></i> Start Building Now
-        </button>
-        <button class="bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-lg text-sm font-semibold border border-slate-600 transition flex items-center gap-2">
-          <i class="ph ph-eye"></i> Learn More
+  <section class="bg-gradient-to-r from-red-600 to-red-700 text-white py-16 px-6">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-6">
+        <i class="ph ph-rocket"></i>
+        <span>Ready to Start?</span>
+      </div>
+      <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Build Your IoT Solution?</h2>
+      <div class="w-20 h-1 bg-yellow-300 mx-auto mb-6"></div>
+      <p class="text-lg md:text-xl text-red-50 mb-8 max-w-3xl mx-auto leading-relaxed">Join thousands of developers and enterprises building the future with our comprehensive IoT platform.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="index.html" class="bg-white text-red-600 px-8 py-3 rounded-lg text-base font-semibold hover:bg-red-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-0.5 flex items-center justify-center gap-2">
+          <i class="ph ph-lightning text-lg"></i> 
+          <span>Start Building Now</span>
+        </a>
+        <button class="bg-red-800/80 backdrop-blur-sm text-white px-8 py-3 rounded-lg text-base font-semibold hover:bg-red-900 transition-all border-2 border-white/30 hover:border-white/50 flex items-center justify-center gap-2">
+          <i class="ph ph-eye text-lg"></i> 
+          <span>Learn More</span>
         </button>
       </div>
     </div>

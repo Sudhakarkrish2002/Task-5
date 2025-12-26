@@ -64,96 +64,266 @@
     .form-group { margin-bottom: 12px; }
     .form-label { display: block; font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 4px; text-transform: uppercase; }
     .form-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+    .filter-tab { transition: all 0.2s; }
+    .filter-tab.active { border-bottom: 2px solid #dc2626; }
   </style>
 </head>
 <body class="h-screen overflow-hidden text-slate-800">
 
   <div id="screen-list" class="h-full w-full flex flex-col bg-white">
-    <nav class="h-16 bg-white border-b border-slate-200 text-slate-900 flex items-center justify-between px-8 shadow-sm">
-        <div class="flex items-center gap-2 font-bold text-lg tracking-tight">
-            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                <i class="ph ph-sliders text-white text-lg"></i>
-            </div>
-            <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+            <i class="ph ph-sliders text-white text-lg"></i>
+          </div>
+          <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-8">
+          <a href="home.html" class="text-slate-700 hover:text-red-600 font-medium transition">Home</a>
+          <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
+          <a href="index.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">My Panels</a>
+          <a href="contact.html" class="text-slate-700 hover:text-red-600 font-medium transition">Contact</a>
         </div>
-    </nav>
+      </nav>
+    </header>
 
     <div class="flex-1 overflow-y-auto p-8">
         <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
+            <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-slate-900">My Dashboards</h1>
-                    <p class="text-slate-500 text-sm">Select a project to load the control panel.</p>
+                    <h1 class="text-2xl font-bold text-slate-900">My Panels</h1>
+                    <p class="text-slate-500 text-sm">Manage your IoT dashboards</p>
                 </div>
                 <button onclick="createNewDashboard()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition">
-                    <i class="ph ph-plus-circle text-lg"></i> Create New
+                    <i class="ph ph-plus text-base"></i> Create New Panel
+                </button>
+            </div>
+
+            <div class="flex gap-3 mb-6">
+                <div class="flex-1 relative">
+                    <input type="text" placeholder="Search panels..." class="w-full px-4 py-2 pl-10 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                </div>
+                <button class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+                    Filter
                 </button>
             </div>
 
             <div id="dashboard-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <div class="text-slate-500 italic">Loading...</div>
+                <div id="loading-state" class="col-span-full flex flex-col items-center justify-center py-20">
+                    <div class="relative w-16 h-16 mb-4">
+                        <div class="absolute inset-0 border-4 border-red-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-red-600 rounded-full border-t-transparent animate-spin"></div>
+                    </div>
+                    <p class="text-slate-600 font-medium">Loading dashboards...</p>
+                </div>
             </div>
         </div>
     </div>
   </div>
 
 
-  <div id="screen-workspace" class="hidden h-full w-full flex">
-    
-    <aside class="w-64 bg-white border-r border-slate-200 text-slate-700 flex flex-col shrink-0 z-50 transition-all duration-300 shadow-sm">
-        <div class="h-14 flex items-center px-4 border-b border-slate-200 font-bold text-slate-900 tracking-tight bg-white">
-          <i class="ph ph-sliders text-red-600 text-xl mr-2"></i> Workspace
+  <div id="screen-workspace" class="hidden h-full w-full flex flex-col bg-white">
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+            <i class="ph ph-sliders text-white text-lg"></i>
+          </div>
+          <span class="text-xl font-bold text-slate-900">IoT Dashboard</span>
         </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="home.html" class="text-slate-700 hover:text-red-600 font-medium transition">Home</a>
+          <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
+          <a href="index.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">My Panels</a>
+          <a href="contact.html" class="text-slate-700 hover:text-red-600 font-medium transition">Contact</a>
+        </div>
+      </nav>
+    </header>
 
-        <div class="flex-1 overflow-y-auto p-4 space-y-4">
-          <button onclick="closeWorkspace()" class="w-full flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm mb-4 transition">
-            <i class="ph ph-arrow-left"></i> Back to List
-          </button>
+    <!-- Action Bar -->
+    <div class="h-12 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
+        <!-- Left: Dashboard Name -->
+        <div class="flex items-center gap-2">
+            <span class="text-sm font-semibold text-slate-900" id="dashboard-name-display">Loading...</span>
+        </div>
+        
+        <!-- Center: Topic ID -->
+        <div class="flex items-center gap-2 text-xs text-slate-600">
+            <span>Topic ID: <span id="topic-id-display">176675196394000</span></span>
+            <button onclick="copyTopicId()" class="text-slate-400 hover:text-slate-600 p-1">
+                <i class="ph ph-copy text-sm"></i>
+            </button>
+        </div>
+        
+        <!-- Right: Online/Offline Status and Action Buttons -->
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 text-xs" id="connection-status">
+                <div class="w-2 h-2 rounded-full bg-red-500" id="status-indicator"></div>
+                <span class="text-slate-600" id="status-text">Offline</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-save" onclick="saveCurrentDashboard()" class="hidden px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2">
+                    <i class="ph ph-floppy-disk"></i> Save
+                </button>
+                <button onclick="publishDashboard()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2">
+                    <i class="ph ph-arrow-up"></i> Publish
+                </button>
+            </div>
+        </div>
+    </div>
 
-          <div id="mqtt-status" class="px-3 py-2 rounded bg-slate-50 border border-slate-200 text-xs flex items-center gap-2 text-red-600">
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Left Sidebar - Widgets Panel -->
+        <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 z-50">
+            <div class="p-4 border-b border-slate-200">
+                <h3 class="text-sm font-bold text-slate-900 mb-2">Widgets</h3>
+                <p class="text-xs text-slate-500 mb-4">Click or drag widgets to your dashboard</p>
+                <div class="relative mb-4">
+                    <input type="text" id="widget-search" placeholder="Search widgets..." class="w-full px-3 py-2 pl-9 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                </div>
+                <div class="flex gap-1 border-b border-slate-200">
+                    <button onclick="filterWidgets('all')" class="filter-tab active px-3 py-1.5 text-xs font-medium text-red-600 border-b-2 border-red-600">All Widgets</button>
+                    <button onclick="filterWidgets('controls')" class="filter-tab px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-600">Controls</button>
+                    <button onclick="filterWidgets('visualizat')" class="filter-tab px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-600">Visualizat</button>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4">
+                <div id="mqtt-status" class="px-3 py-2 rounded bg-slate-50 border border-slate-200 text-xs flex items-center gap-2 text-red-600 mb-4">
             <div class="w-2 h-2 rounded-full bg-red-500"></div> Disconnected
           </div>
 
-          <div id="widget-palette" class="hidden pt-4 border-t border-slate-200 animate-fade-in">
-            <div class="text-xs font-bold text-red-600 uppercase mb-2">Drag & Drop Widgets</div>
-            <button onclick="addWidget('gauge360')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-timer text-amber-500"></i> 360° Gauge</button>
-            <button onclick="addWidget('gauge180')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-gauge text-red-600"></i> 180° Gauge</button>
-            <button onclick="addWidget('linechart')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-chart-line text-cyan-500"></i> Trend Chart</button>
-            <button onclick="addWidget('slider')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-sliders-horizontal text-emerald-500"></i> Slider</button>
-            <button onclick="addWidget('slideswitch')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-toggle-left text-purple-500"></i> Switch</button>
-            <button onclick="addWidget('tactswitch')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-hand-tap text-pink-500"></i> Button</button>
-            <button onclick="addWidget('pushbutton')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-radio-button text-rose-500"></i> Push Button</button>
-            <button onclick="addWidget('led')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-lightbulb text-red-500"></i> LED</button>
-            <button onclick="addWidget('rgb')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-palette text-fuchsia-500"></i> RGB Light</button>
-            <button onclick="addWidget('label')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-text-t text-slate-500"></i> Label</button>
-            <button onclick="addWidget('terminal')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-terminal-window text-green-500"></i> Terminal</button>
-            <button onclick="addWidget('map')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left mb-1 text-slate-700"><i class="ph ph-map-trifold text-blue-500"></i> Map</button>
-            <button onclick="addWidget('input')" class="w-full flex items-center gap-2 p-2 bg-slate-50 hover:bg-red-50 rounded border border-slate-200 hover:border-red-200 text-xs text-left text-slate-700"><i class="ph ph-map-trifold text-blue-500 text-lg"></i> input</button>
- 
+                <div id="widget-palette" class="space-y-2">
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('gauge180')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-gauge text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Gauge</div>
+                                <div class="text-xs text-slate-500">Display values with visual indicators</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('gauge360')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-timer text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">360° Gauge</div>
+                                <div class="text-xs text-slate-500">Full circle gauge display</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('linechart')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-chart-bar text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Chart</div>
+                                <div class="text-xs text-slate-500">Data visualization and analytics</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="controls">
+                        <button onclick="addWidget('slideswitch')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-toggle-left text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Toggle</div>
+                                <div class="text-xs text-slate-500">On/off control switches</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="controls">
+                        <button onclick="addWidget('slider')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-sliders-horizontal text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Slider</div>
+                                <div class="text-xs text-slate-500">Range control input</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="controls">
+                        <button onclick="addWidget('pushbutton')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-radio-button text-rose-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Push Button</div>
+                                <div class="text-xs text-slate-500">Momentary action button</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="controls">
+                        <button onclick="addWidget('tactswitch')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-hand-tap text-pink-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Button</div>
+                                <div class="text-xs text-slate-500">Tactile switch control</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('led')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-lightbulb text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">LED</div>
+                                <div class="text-xs text-slate-500">Status indicator light</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('label')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-text-t text-slate-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Label</div>
+                                <div class="text-xs text-slate-500">Text display widget</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="visualizat">
+                        <button onclick="addWidget('map')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-map-trifold text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Map</div>
+                                <div class="text-xs text-slate-500">Geographic location display</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="widget-item" data-category="controls">
+                        <button onclick="addWidget('input')" class="w-full flex items-start gap-3 p-3 bg-slate-50 hover:bg-red-50 rounded-lg border border-slate-200 hover:border-red-200 text-left transition group">
+                            <i class="ph ph-keyboard text-red-600 text-lg mt-0.5"></i>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-900 group-hover:text-red-600">Input</div>
+                                <div class="text-xs text-slate-500">Text input control</div>
+                            </div>
+                        </button>
+                    </div>
           </div>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-hidden bg-white relative">
-        <header class="bg-white h-14 border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-20">
-          <div class="flex items-center gap-3">
-             <div id="status-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></div>
-             <span class="text-sm font-semibold text-slate-700" id="workspace-title">Loading...</span>
-          </div>
-          <div class="flex gap-2">
-            <button id="btn-save" onclick="saveCurrentDashboard()" class="hidden px-3 py-1.5 bg-red-50 text-red-700 text-xs font-semibold rounded hover:bg-red-100 border border-red-200"><i class="ph ph-floppy-disk"></i> Save Changes</button>
-            <button onclick="toggleMode()" id="mode-btn" class="px-4 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded shadow-sm">
-                <i class="ph ph-pencil-simple"></i> Edit Layout
-            </button>
-          </div>
-        </header>
-
-        <div class="flex-1 overflow-y-auto p-4 relative bg-slate-50">
-          <div class="grid-stack min-h-[800px]"></div>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50 relative">
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="bg-white rounded-lg border border-slate-200 p-6 min-h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-slate-900">Dashboard</h3>
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-slate-500" id="widget-count">0 widgets</span>
+                            <button class="text-slate-400 hover:text-slate-600 p-1">
+                                <i class="ph ph-arrows-out text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="dashboard-empty" class="flex flex-col items-center justify-center py-20 text-center">
+                        <i class="ph ph-chart-bar text-6xl text-slate-300 mb-4"></i>
+                        <p class="text-lg font-semibold text-slate-600 mb-2">No widgets yet</p>
+                        <p class="text-sm text-slate-500">Drag widgets from the palette to place them anywhere</p>
+                    </div>
+                    <div class="grid-stack min-h-[800px] hidden" id="dashboard-grid-container"></div>
+                </div>
         </div>
     </main>
+    </div>
   </div>
 
   <div id="config-modal">
@@ -184,50 +354,353 @@
     const DEFAULT_LOC = { lat: 10.7905, lng: 78.7047 };
 
     // --- GRID SETUP ---
-    const grid = GridStack.init({ column: 12, cellHeight: 100, margin: 10, float: true, disableResize: true, disableDrag: true, animate: true });
+    let grid;
+    
+    function initGrid() {
+        const container = document.getElementById('dashboard-grid-container');
+        if (container) {
+            if (grid) {
+                grid.destroy();
+                grid = null;
+            }
+            // Ensure container is visible before initializing grid
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+            }
+            grid = GridStack.init({ column: 12, cellHeight: 100, margin: 10, float: true, disableResize: true, disableDrag: true, animate: true }, container);
+        }
+    }
+    
+    // Helper Functions
+    function formatTimeAgo(dateString) {
+        if (!dateString) return 'Just now';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffDays < 7) return `${diffDays}d ago`;
+        return date.toLocaleDateString();
+    }
+    
+    function formatDateTime(dateString) {
+        if (!dateString) return 'Never';
+        const date = new Date(dateString);
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        
+        // If today, show only time
+        if (dateOnly.getTime() === today.getTime()) {
+            return `Today at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+        }
+        // If yesterday
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (dateOnly.getTime() === yesterday.getTime()) {
+            return `Yesterday at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+        }
+        // Otherwise show full date and time
+        return date.toLocaleString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    }
+    
+    async function copyDashboard(id, e) {
+        e.stopPropagation();
+        
+        try {
+            // Fetch the original dashboard
+            const res = await fetch(`${API}get_dashboard&id=${id}`);
+            if (!res.ok) {
+                alert('Failed to load dashboard for copying');
+                return;
+            }
+            
+            const originalDash = await res.json();
+            const widgets = JSON.parse(originalDash.data || '[]');
+            
+            // Create new dashboard with copied data
+            const newId = 'dash_' + Date.now();
+            const newName = originalDash.name + ' (Copy)';
+            
+            const saveRes = await fetch(`${API}save_dashboard`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    id: newId, 
+                    name: newName, 
+                    data: widgets 
+                })
+            });
+            
+            if (saveRes.ok) {
+                // Show success feedback
+                const btn = e.target.closest('button');
+                if (btn) {
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="ph ph-check text-lg"></i>';
+                    btn.classList.remove('text-slate-400', 'hover:text-slate-600');
+                    btn.classList.add('text-green-600');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('text-green-600');
+                        btn.classList.add('text-slate-400', 'hover:text-slate-600');
+                    }, 1500);
+                }
+                // Reload the list to show the new dashboard
+                setTimeout(() => loadList(), 500);
+            } else {
+                alert('Failed to copy dashboard');
+            }
+        } catch (error) {
+            console.error('Error copying dashboard:', error);
+            alert('Error copying dashboard: ' + error.message);
+        }
+    }
+    
+    function copyTopicId() {
+        // Get topic ID from action bar display
+        const topicIdEl = document.getElementById('topic-id-display');
+        const topicId = topicIdEl ? topicIdEl.textContent : currentDashId;
+        
+        if (topicId && topicId !== '-') {
+            navigator.clipboard.writeText(topicId).then(() => {
+                // Show visual feedback
+                const buttons = document.querySelectorAll('button[onclick="copyTopicId()"]');
+                buttons.forEach(btn => {
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="ph ph-check text-xs"></i>';
+                    btn.classList.add('text-green-600');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('text-green-600');
+                    }, 1000);
+                });
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy Topic ID');
+            });
+        }
+    }
+    
+    async function publishDashboard() {
+        if (!currentDashId) {
+            alert("No dashboard selected");
+            return;
+        }
+        
+        // First save the dashboard
+        await saveCurrentDashboard();
+        
+        // Switch to published/view mode (read-only with live updates)
+        setEditMode(false);
+        
+        // Disable drag and resize in published mode
+        if (grid) {
+            grid.disableMove();
+            grid.disableResize();
+        }
+        
+        // Hide edit controls (settings and delete buttons)
+        document.body.classList.remove('edit-mode');
+        
+        // Show success message
+        const publishBtn = document.querySelector('button[onclick="publishDashboard()"]');
+        if (publishBtn) {
+            const originalText = publishBtn.innerHTML;
+            publishBtn.innerHTML = '<i class="ph ph-check"></i> Published';
+            publishBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+            publishBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            setTimeout(() => {
+                publishBtn.innerHTML = originalText;
+                publishBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                publishBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            }, 2000);
+        }
+        
+        // Ensure MQTT is connected and subscribed for live updates
+        if (client && client.isConnected() && currentTopic) {
+            console.log("Dashboard published. Live updates active on topic:", currentTopic);
+        } else {
+            console.warn("MQTT not connected. Live updates may not work.");
+        }
+    }
+    
+    function filterWidgets(category) {
+        // Update active tab
+        document.querySelectorAll('.filter-tab').forEach(btn => {
+            btn.classList.remove('active', 'text-red-600', 'border-b-2', 'border-red-600');
+            btn.classList.add('text-slate-600');
+        });
+        event.target.classList.add('active', 'text-red-600', 'border-b-2', 'border-red-600');
+        event.target.classList.remove('text-slate-600');
+        
+        // Filter widgets
+        const widgets = document.querySelectorAll('.widget-item');
+        widgets.forEach(widget => {
+            if (category === 'all' || widget.dataset.category === category) {
+                widget.style.display = 'block';
+            } else {
+                widget.style.display = 'none';
+            }
+        });
+    }
 
     /* ==================== SCREEN 1: LIST LOGIC ==================== */
     async function loadList() {
         document.getElementById('screen-list').classList.remove('hidden');
         document.getElementById('screen-workspace').classList.add('hidden');
         
-        const res = await fetch(`${API}list_dashboards`);
-        
-        const list = await res.json();
         const container = document.getElementById('dashboard-grid');
-        container.innerHTML = '';
-
-        if(!list || list.length === 0) {
-            container.innerHTML = `<div class="col-span-4 text-center py-12 text-slate-400">No dashboards found.</div>`;
+        const loadingState = document.getElementById('loading-state');
+        
+        // Show loading state
+        if (loadingState) {
+            loadingState.classList.remove('hidden');
         } else {
-            list.forEach(d => {
-                const card = document.createElement('div');
-                card.className = "dash-card group";
-                card.onclick = (e) => { if(!e.target.closest('.trash-btn')) openWorkspace(d.id); };
-                card.innerHTML = `
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-red-600 transition">${d.name}</h3>
-                        <p class="text-xs text-slate-400 mt-1">ID: ${d.id}</p>
+            container.innerHTML = `
+                <div id="loading-state" class="col-span-full flex flex-col items-center justify-center py-20">
+                    <div class="relative w-16 h-16 mb-4">
+                        <div class="absolute inset-0 border-4 border-red-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-red-600 rounded-full border-t-transparent animate-spin"></div>
                     </div>
-                    <div class="flex justify-between items-end relative z-10">
-                        <span class="bg-slate-100 text-slate-500 text-[10px] px-2 py-1 rounded">Updated: ${d.updated_at || 'Now'}</span>
-                        <button class="trash-btn text-slate-300 hover:text-red-500 p-2" onclick="deleteDashboard('${d.id}', event)"><i class="ph ph-trash text-xl"></i></button>
+                    <p class="text-slate-600 font-medium">Loading dashboards...</p>
+                </div>
+            `;
+        }
+        
+        try {
+            const res = await fetch(`${API}list_dashboards`);
+            
+            let list = [];
+            
+            // Parse response
+            const responseData = await res.json();
+            
+            // Check if response contains an error message
+            if (responseData && responseData.error) {
+                // Database connection errors are real errors - show them
+                if (responseData.error.includes('Database') || responseData.error.includes('connection')) {
+                    throw new Error(responseData.error);
+                }
+                // Other errors might just mean no dashboards - treat as empty
+                list = [];
+            } 
+            // If response is an array, use it
+            else if (Array.isArray(responseData)) {
+                list = responseData;
+            } 
+            // If response is not an array and not an error object, treat as empty
+            else {
+                list = [];
+            }
+            
+            container.innerHTML = '';
+
+            // If list is empty, show "No Panels" message (this is NOT an error)
+            if(list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center py-20">
+                        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                            <i class="ph ph-folder-open text-red-400 text-4xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-2">No Panels Found</h3>
+                        <p class="text-slate-500 text-sm mb-6 max-w-md text-center">You haven't created any dashboards yet. Create your first panel to get started.</p>
+                        <button onclick="createNewDashboard()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition">
+                            <i class="ph ph-plus text-base"></i> Create New Panel
+                        </button>
                     </div>
-                    <i class="ph ph-sliders bg-icon"></i>
                 `;
-                container.appendChild(card);
-            });
+            } else {
+                // Display dashboards properly
+                list.forEach(d => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-lg p-6 hover:shadow-md transition-all cursor-pointer group";
+                card.onclick = (e) => { if(!e.target.closest('.action-btn')) openWorkspace(d.id); };
+                
+                // Parse widgets to count devices
+                let widgetCount = 0;
+                let deviceCount = 0;
+                try {
+                    const widgets = JSON.parse(d.data || '[]');
+                    widgetCount = widgets.length;
+                    // Count unique channels as devices
+                    const channels = new Set(widgets.map(w => w.ch));
+                    deviceCount = channels.size;
+                } catch(e) {}
+                
+                const updatedDateTime = d.updated_at ? formatDateTime(d.updated_at) : 'Never';
+                
+                card.innerHTML = `
+                    <div class="mb-4">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 group-hover:text-red-600 transition">${d.name || 'Untitled Dashboard'}</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <i class="ph ph-stack text-red-500"></i>
+                                <span><strong>${widgetCount}</strong> widget${widgetCount !== 1 ? 's' : ''}</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <i class="ph ph-clock text-slate-400"></i>
+                                <span>Updated: ${updatedDateTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 gap-2">
+                        <button class="action-btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 flex-1 justify-center" onclick="openWorkspace('${d.id}'); event.stopPropagation();">
+                            <i class="ph ph-pencil-simple text-sm"></i>
+                            <span>Edit</span>
+                        </button>
+                        <button class="action-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2" onclick="copyDashboard('${d.id}', event)" title="Copy Panel">
+                            <i class="ph ph-copy text-sm"></i>
+                            <span>Copy</span>
+                        </button>
+                        <button class="action-btn bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2" onclick="deleteDashboard('${d.id}', event)" title="Delete">
+                            <i class="ph ph-trash text-sm"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                `;
+                    container.appendChild(card);
+                });
+            }
+        } catch (error) {
+            // Only show error for actual failures (network errors, server errors, parsing errors)
+            console.error('Error loading dashboards:', error);
+            container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-20">
+                    <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="ph ph-warning text-red-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-900 mb-2">Error Loading Dashboards</h3>
+                    <p class="text-slate-500 text-sm mb-6 max-w-md text-center">There was an error loading your dashboards. Please check your connection and try again.</p>
+                    <button onclick="loadList()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition">
+                        <i class="ph ph-arrow-clockwise text-base"></i> Retry
+                    </button>
+                </div>
+            `;
         }
     }
 
     async function createNewDashboard() {
         const name = prompt("Dashboard Name:", "Factory Line 1");
         if(!name) return;
+        // Generate unique topic ID for this panel
         const newId = 'dash_' + Date.now();
         await fetch(`${API}save_dashboard`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: newId, name: name, data: [] })
         });
+        // Open workspace with the unique topic ID
         openWorkspace(newId); // Immediately open the new dashboard
     }
 
@@ -247,32 +720,90 @@
         // Switch Views
         document.getElementById('screen-list').classList.add('hidden');
         document.getElementById('screen-workspace').classList.remove('hidden');
-        document.getElementById('workspace-title').innerText = "Loading...";
         
-        // ... (Rest of the existing openWorkspace code) ...
-
-        // Reset Grid & State
-        grid.removeAll();
         widgetRegistry.clear();
         setEditMode(false); // Default to Live Mode
 
         // Load Data
-        const res = await fetch(`${API}get_dashboard&id=${id}`);
-        if(!res.ok) { alert("Load Failed"); closeWorkspace(); return; }
-        
-        const dash = await res.json();
-        document.getElementById('workspace-title').innerText = dash.name;
-
-        // Populate Grid
+        let dash = null;
         let widgets = [];
-        try { widgets = JSON.parse(dash.data); } catch(e) {}
-        if(widgets) {
-            widgets.forEach(item => {
-                 const html = getWidgetHTML(item.id, item.type, item.title, item);
-                 grid.addWidget({ w: item.w, h: item.h, x: item.x, y: item.y, content: html, id: item.id });
-                 setTimeout(() => initWidgetInstance(item.id, item), 100);
-            });
+        
+        // Set topic ID immediately (unique for each panel)
+        document.getElementById('topic-id-display').textContent = id;
+        
+        const res = await fetch(`${API}get_dashboard&id=${id}`);
+        if(!res.ok) { 
+            // If dashboard doesn't exist, use default name and empty widgets
+            const defaultName = id.replace('dash_', 'Dashboard ').replace(/\d+$/, '');
+            document.getElementById('dashboard-name-display').innerText = defaultName || 'New Dashboard';
+            widgets = [];
+        } else {
+            dash = await res.json();
+            if (dash && dash.name) {
+                document.getElementById('dashboard-name-display').innerText = dash.name;
+            } else {
+                document.getElementById('dashboard-name-display').innerText = 'Untitled Dashboard';
+            }
+            
+            // Populate Grid
+            try { 
+                widgets = JSON.parse(dash.data || '[]'); 
+            } catch(e) {
+                console.warn('Failed to parse dashboard data:', e);
+                widgets = [];
+            }
         }
+        
+        const emptyState = document.getElementById('dashboard-empty');
+        const gridContainer = document.getElementById('dashboard-grid-container');
+        
+        // Initialize grid and populate widgets
+        setTimeout(() => {
+            // Initialize grid first
+            if (!grid) {
+                initGrid();
+            } else {
+                // Clear existing widgets
+                grid.removeAll();
+            }
+            
+            // Ensure widget palette is visible
+            const palette = document.getElementById('widget-palette');
+            if (palette) palette.classList.remove('hidden');
+            
+            if(widgets && widgets.length > 0) {
+                // Hide empty state and show grid container
+                if (emptyState) emptyState.classList.add('hidden');
+                if (gridContainer) {
+                    gridContainer.classList.remove('hidden');
+                }
+                updateWidgetCount(widgets.length);
+                
+                // Add widgets to grid
+                widgets.forEach(item => {
+                    const html = getWidgetHTML(item.id, item.type, item.title, item);
+                    if (grid) {
+                        // Ensure we have valid grid positions
+                        const x = item.x !== undefined ? item.x : 0;
+                        const y = item.y !== undefined ? item.y : 0;
+                        const w = item.w !== undefined ? item.w : 3;
+                        const h = item.h !== undefined ? item.h : 3;
+                        
+                        grid.addWidget({ w, h, x, y, content: html, id: item.id });
+                        setTimeout(() => initWidgetInstance(item.id, item), 50);
+                    }
+                });
+            } else {
+                // Show empty state
+                if (emptyState) emptyState.classList.remove('hidden');
+                if (gridContainer) gridContainer.classList.add('hidden');
+                updateWidgetCount(0);
+            }
+        }, 200);
+    }
+    
+    function updateWidgetCount(count) {
+        document.getElementById('widget-count').textContent = `${count} widget${count !== 1 ? 's' : ''}`;
     }
 
     function closeWorkspace() {
@@ -289,23 +820,36 @@
     function setEditMode(enable) {
         isEditMode = enable;
         const palette = document.getElementById('widget-palette');
-        const btn = document.getElementById('mode-btn');
         const saveBtn = document.getElementById('btn-save');
+        const emptyState = document.getElementById('dashboard-empty');
+        const gridContainer = document.getElementById('dashboard-grid-container');
         
         if(isEditMode) {
             document.body.classList.add('edit-mode');
-            palette.classList.remove('hidden');
-            saveBtn.classList.remove('hidden');
-            btn.innerHTML = '<i class="ph ph-x"></i> Cancel Edit';
-            btn.classList.add('bg-slate-100');
-            grid.enableMove(true); grid.enableResize(true);
+            // Keep widget palette visible
+            if (palette) palette.classList.remove('hidden');
+            if (saveBtn) saveBtn.classList.remove('hidden');
+            if (gridContainer) {
+                gridContainer.classList.remove('hidden');
+                if (emptyState) emptyState.classList.add('hidden');
+            }
+            if (grid) {
+                grid.enableMove(true); 
+                grid.enableResize(true);
+            }
         } else {
             document.body.classList.remove('edit-mode');
-            palette.classList.add('hidden');
-            saveBtn.classList.add('hidden');
-            btn.innerHTML = '<i class="ph ph-pencil-simple"></i> Edit Layout';
-            btn.classList.remove('bg-slate-100');
-            grid.enableMove(false); grid.enableResize(false);
+            // Keep widget palette visible even when not in edit mode
+            if (palette) palette.classList.remove('hidden');
+            if (saveBtn) saveBtn.classList.add('hidden');
+            if (grid && grid.engine.nodes.length === 0) {
+                if (gridContainer) gridContainer.classList.add('hidden');
+                if (emptyState) emptyState.classList.remove('hidden');
+            }
+            if (grid) {
+                grid.enableMove(false); 
+                grid.enableResize(false);
+            }
         }
     }
 
@@ -314,7 +858,15 @@
     }
 
     async function saveCurrentDashboard() {
-        if(!currentDashId) return;
+        if(!currentDashId) {
+            alert("No dashboard selected");
+            return;
+        }
+        
+        if (!grid) {
+            alert("Grid not initialized. Please wait...");
+            return;
+        }
         
         const saveData = [];
         
@@ -344,7 +896,7 @@
             }
         });
 
-        const currentName = document.getElementById('workspace-title').innerText;
+        const currentName = document.getElementById('dashboard-name-display').innerText;
         
         try {
             const res = await fetch(`${API}save_dashboard`, {
@@ -354,10 +906,24 @@
             });
 
             if(res.ok) {
-                alert("Dashboard Saved Successfully!");
+                const result = await res.json();
+                // Show success feedback
+                const saveBtn = document.getElementById('btn-save');
+                if (saveBtn) {
+                    const originalText = saveBtn.innerHTML;
+                    saveBtn.innerHTML = '<i class="ph ph-check"></i> Saved';
+                    saveBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    saveBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    setTimeout(() => {
+                        saveBtn.innerHTML = originalText;
+                        saveBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        saveBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                    }, 2000);
+                }
                 setEditMode(false); // Exit edit mode
             } else {
-                alert("Error Saving: Server rejected data");
+                const errorText = await res.text();
+                alert("Error Saving: " + errorText);
             }
         } catch (e) {
             console.error(e);
@@ -379,7 +945,7 @@
         if (type.includes('gauge') || type === 'linechart') c = `<div id="${id}_chart" class="w-full h-full"></div>`;
         else if (type === 'map') c = `<div id="${id}_map" class="w-full h-full z-0"></div>`;
         else if (type === 'slider') c = `<div class="flex flex-col items-center justify-center h-full w-full px-[5cqmin] relative"><input type="range" id="${id}_input" min="${min}" max="${max}" class="w-full appearance-none bg-transparent cursor-pointer z-10" style="height: 15cqmin;" onchange="publishData('${id}', this.value)" oninput="handleLocalInput('${id}', this.value)"><div class="absolute w-[90%] h-[6cqmin] bg-slate-300 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] border-b border-slate-100 top-1/2 -translate-y-1/2 z-0"></div><style> #${id}_input::-webkit-slider-thumb { -webkit-appearance: none; height: 22cqmin; width: 14cqmin; border-radius: 6px; background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 100%); border: 1px solid #94a3b8; box-shadow: 0 6px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8); margin-top: -8cqmin; background-image: repeating-linear-gradient(90deg, transparent, transparent 20%, #94a3b8 20%, #94a3b8 40%); background-size: 50% 40%; background-position: center; background-repeat: no-repeat; } </style><div class="flex justify-between w-full mt-[8cqmin] font-mono text-slate-500 font-bold" style="font-size: 7cqmin; line-height: 1;"><span id="${id}_min_lbl" class="text-slate-400">${min}</span><div class="bg-slate-800 text-emerald-400 px-2 rounded border border-slate-600 shadow-inner flex items-center"><span id="${id}_val" style="font-size: 9cqmin;">0</span></div><span id="${id}_max_lbl" class="text-slate-400">${max}</span></div></div>`;
-        else if (type === 'slideswitch') c = `<div class="flex flex-col items-center justify-center h-full gap-[3cqmin]"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="${id}_input" class="sr-only peer" onchange="publishData('${id}', this.checked ? 1 : 0)"><div class="bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all after:shadow-sm shadow-inner" style="width: 50cqmin; height: 28cqmin; --handle-size: 22cqmin; --handle-pad: 3cqmin;"></div><style> #${id}_input ~ div::after { height: var(--handle-size); width: var(--handle-size); top: var(--handle-pad); left: var(--handle-pad); } #${id}_input:checked ~ div::after { transform: translateX(22cqmin) !important; } </style></label><span class="font-bold text-slate-400 uppercase tracking-wider" style="font-size: 10cqmin;">Toggle</span></div>`;
+        else if (type === 'slideswitch') c = `<div class="flex flex-col items-center justify-center h-full gap-[3cqmin]"><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="${id}_input" class="sr-only peer" onchange="publishData('${id}', this.checked ? 1 : 0)"><div class="bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all after:shadow-sm shadow-inner" style="width: 50cqmin; height: 28cqmin; --handle-size: 22cqmin; --handle-pad: 3cqmin;"></div><style> #${id}_input ~ div::after { height: var(--handle-size); width: var(--handle-size); top: var(--handle-pad); left: var(--handle-pad); } #${id}_input:checked ~ div::after { transform: translateX(22cqmin) !important; } </style></label><span class="font-bold text-slate-400 uppercase tracking-wider" style="font-size: 10cqmin;">Toggle</span></div>`;
         else if (type === 'tactswitch') c = `<div class="flex flex-col items-center justify-center h-full"><button id="${id}_btn" class="tact-btn rounded-full text-slate-500 flex items-center justify-center transition-all duration-100 active:!bg-rose-500 active:!bg-none active:text-white active:shadow-[inset_0_4px_8px_rgba(0,0,0,0.3)]" style="width: 55cqmin; height: 55cqmin;" onmousedown="publishData('${id}', 1)" onmouseup="publishData('${id}', 0)" onmouseleave="publishData('${id}', 0)"><i class="ph ph-power" style="font-size: 28cqmin; font-weight: bold;"></i></button></div>`;
         else if (type === 'pushbutton') c = `<div class="flex flex-col items-center justify-center h-full"><button id="${id}_btn" class="btn-push rounded text-slate-600 font-bold uppercase tracking-widest border border-slate-300" style="width: 70cqw; height: 30cqh; font-size: 10cqmin;" onclick="togglePush('${id}')">OFF</button></div>`;
         else if (type === 'led') c = `<div class="flex flex-col items-center justify-center h-full"><div class="bg-slate-100 rounded-lg shadow-inner border border-slate-200 flex items-center justify-center" style="padding: 5cqmin;"><div id="${id}_led" class="led-bulb" style="width: 35cqmin; height: 35cqmin;"></div></div></div>`;
@@ -433,8 +999,22 @@
         client.onConnectionLost = (resp) => {
             console.log("MQTT Lost");
             document.getElementById("mqtt-status").innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500"></div> Disconnected`;
-            document.getElementById("mqtt-status").classList.remove("text-emerald-600");
+            document.getElementById("mqtt-status").classList.remove("text-red-600");
             document.getElementById("mqtt-status").classList.add("text-red-600");
+            
+            // Update connection status in action bar
+            const statusIndicator = document.getElementById("status-indicator");
+            const statusText = document.getElementById("status-text");
+            if (statusIndicator) {
+                statusIndicator.classList.remove("bg-green-500", "animate-pulse");
+                statusIndicator.classList.add("bg-red-500");
+            }
+            if (statusText) {
+                statusText.textContent = "Offline";
+                statusText.classList.remove("text-green-600");
+                statusText.classList.add("text-slate-600");
+            }
+            
             setTimeout(initMQTT, 5000);
         };
 
@@ -444,10 +1024,23 @@
 
         const connectOptions = {
             onSuccess: () => {
-                document.getElementById("mqtt-status").innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> Connected`;
+                document.getElementById("mqtt-status").innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div> Connected`;
                 document.getElementById("mqtt-status").classList.remove("text-red-600");
-                document.getElementById("mqtt-status").classList.add("text-emerald-600");
+                document.getElementById("mqtt-status").classList.add("text-red-600");
                 console.log("MQTT Connected");
+                
+                // Update connection status in action bar
+                const statusIndicator = document.getElementById("status-indicator");
+                const statusText = document.getElementById("status-text");
+                if (statusIndicator) {
+                    statusIndicator.classList.remove("bg-red-500");
+                    statusIndicator.classList.add("bg-green-500", "animate-pulse");
+                }
+                if (statusText) {
+                    statusText.textContent = "Online";
+                    statusText.classList.remove("text-slate-600");
+                    statusText.classList.add("text-green-600");
+                }
                 
                 // If a dashboard is already open (e.g. after reload), subscribe to it immediately
                 if(currentDashId) {
@@ -456,7 +1049,24 @@
                     console.log("Subscribed to:", currentTopic);
                 }
             },
-            onFailure: (e) => { console.log("Conn Failed", e); setTimeout(initMQTT, 5000); },
+            onFailure: (e) => { 
+                console.log("Conn Failed", e); 
+                
+                // Update connection status in action bar
+                const statusIndicator = document.getElementById("status-indicator");
+                const statusText = document.getElementById("status-text");
+                if (statusIndicator) {
+                    statusIndicator.classList.remove("bg-green-500", "animate-pulse");
+                    statusIndicator.classList.add("bg-red-500");
+                }
+                if (statusText) {
+                    statusText.textContent = "Offline";
+                    statusText.classList.remove("text-green-600");
+                    statusText.classList.add("text-slate-600");
+                }
+                
+                setTimeout(initMQTT, 5000); 
+            },
             useSSL: true
         };
         client.connect(connectOptions);
@@ -493,7 +1103,7 @@
     if(lastEl) lastEl.innerText = val;
     
     // Optional: visual flash on the input to confirm send
-    inputEl.style.backgroundColor = "#dcfce7"; // flash green
+    inputEl.style.backgroundColor = "#fee2e2"; // flash green
     setTimeout(() => { inputEl.style.backgroundColor = ""; }, 200);
 }
 
@@ -512,6 +1122,15 @@
 
     // Helpers & Modal
     function addWidget(type) {
+        if (!isEditMode) {
+            setEditMode(true);
+        }
+        
+        // Ensure grid is initialized
+        if (!grid) {
+            initGrid();
+        }
+        
         const id = `w_${Date.now()}`;
         let w=3, h=3, title="Widget";
         if(type.includes('gauge')) { title="Pressure"; w=3; h=3; }
@@ -525,8 +1144,46 @@
         if(type === 'map') { title="Location"; w=5; h=4; }
         if(type === 'input') { title="Input"; w=4; h=2; }
         const config = { id, type, title, ch: 0, min: 0, max: 100, unit: '', lat: DEFAULT_LOC.lat, lng: DEFAULT_LOC.lng, dataHistory: [] };
-        grid.addWidget({ w, h, content: getWidgetHTML(id, type, title, config), id });
-        setTimeout(() => initWidgetInstance(id, config), 100);
+        
+        const emptyState = document.getElementById('dashboard-empty');
+        const gridContainer = document.getElementById('dashboard-grid-container');
+        
+        // Show grid container and hide empty state
+        if (emptyState) emptyState.classList.add('hidden');
+        if (gridContainer) {
+            gridContainer.classList.remove('hidden');
+        }
+        
+        // Add widget to grid
+        if (grid) {
+            try {
+                grid.addWidget({ w, h, content: getWidgetHTML(id, type, title, config), id });
+                setTimeout(() => {
+                    initWidgetInstance(id, config);
+                    updateWidgetCount(grid.engine.nodes.length);
+                }, 50);
+            } catch (error) {
+                console.error('Error adding widget to grid:', error);
+                // Retry grid initialization if adding widget fails
+                initGrid();
+                setTimeout(() => {
+                    grid.addWidget({ w, h, content: getWidgetHTML(id, type, title, config), id });
+                    initWidgetInstance(id, config);
+                    updateWidgetCount(grid.engine.nodes.length);
+                }, 100);
+            }
+        } else {
+            console.error('Grid not initialized');
+            // Initialize grid and retry
+            initGrid();
+            setTimeout(() => {
+                if (grid) {
+                    grid.addWidget({ w, h, content: getWidgetHTML(id, type, title, config), id });
+                    initWidgetInstance(id, config);
+                    updateWidgetCount(grid.engine.nodes.length);
+                }
+            }, 100);
+        }
     }
     function openSettings(id) {
         currentEditId = id; const w = widgetRegistry.get(id); const c = document.getElementById('modal-fields'); c.innerHTML = '';
@@ -556,9 +1213,44 @@
     }
     function handleLocalInput(id, val) { const el = document.getElementById(`${id}_val`); if(el) el.innerText = val; }
     function togglePush(id) { const btn = document.getElementById(`${id}_btn`); btn.classList.toggle('btn-active-state'); btn.classList.toggle('btn-active-color'); const isActive = btn.classList.contains('btn-active-state'); btn.innerText = isActive ? "ON" : "OFF"; publishData(id, isActive ? 1 : 0); }
-    function deleteWidget(btn) { const item = btn.closest('.grid-stack-item'); grid.removeWidget(item); widgetRegistry.delete(item.getAttribute('gs-id')); }
+    function deleteWidget(btn) { 
+        const item = btn.closest('.grid-stack-item'); 
+        grid.removeWidget(item); 
+        widgetRegistry.delete(item.getAttribute('gs-id'));
+        updateWidgetCount(grid.engine.nodes.length);
+        if (grid.engine.nodes.length === 0) {
+            const emptyState = document.getElementById('dashboard-empty');
+            const gridContainer = document.getElementById('dashboard-grid-container');
+            if (emptyState) emptyState.classList.remove('hidden');
+            if (gridContainer) gridContainer.classList.add('hidden');
+        }
+    }
 
-    window.addEventListener('DOMContentLoaded', () => { loadList(); initMQTT(); });
+    // Widget search functionality
+    function initWidgetSearch() {
+        const searchInput = document.getElementById('widget-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const widgets = document.querySelectorAll('.widget-item');
+                widgets.forEach(widget => {
+                    const text = widget.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        widget.style.display = 'block';
+                    } else {
+                        widget.style.display = 'none';
+                    }
+                });
+            });
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { 
+        loadList(); 
+        initMQTT();
+        initGrid();
+        initWidgetSearch();
+    });
 </script>
 </body>
 </html>
