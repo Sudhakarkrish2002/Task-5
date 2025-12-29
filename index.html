@@ -43,8 +43,11 @@
     body.edit-mode .grid-stack-item-content { border: 2px dashed #94a3b8; cursor: move; }
     .widget-header { height: 36px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; background: #fff; flex-shrink: 0; }
     .widget-title { font-weight: 600; font-size: 12px; color: #475569; text-transform: uppercase; }
-    .edit-tools { display: none; gap: 8px; }
-    body.edit-mode .edit-tools { display: flex; }
+    .edit-tools { display: none; gap: 8px; align-items: center; }
+    body.edit-mode .edit-tools { display: flex !important; }
+    .widget-header { position: relative; }
+    .edit-tools button { cursor: pointer; transition: all 0.2s; }
+    .edit-tools button:hover { transform: scale(1.1); }
     .widget-body { flex: 1; min-height: 0; width: 100%; height: 100%; position: relative; overflow: hidden; container-type: size; }
 
     /* Widget Internals */
@@ -84,6 +87,9 @@
           <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
           <a href="index.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">My Panels</a>
           <a href="contact.html" class="text-slate-700 hover:text-red-600 font-medium transition">Contact</a>
+          <a href="login.html" class="ml-4 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition shadow-sm">
+            Login
+          </a>
         </div>
       </nav>
     </header>
@@ -139,6 +145,9 @@
           <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
           <a href="index.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">My Panels</a>
           <a href="contact.html" class="text-slate-700 hover:text-red-600 font-medium transition">Contact</a>
+          <a href="login.html" class="ml-4 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition shadow-sm">
+            Login
+          </a>
         </div>
       </nav>
     </header>
@@ -337,10 +346,11 @@
     </div>
   </div>
 
-<script>
+  <script>
     // --- GLOBALS ---
     let currentDashId = null;
     let isEditMode = false;
+    let currentEditId = null;
     
     
     const API = 'api.php?action='; 
@@ -625,19 +635,31 @@
                 // Display dashboards properly
                 list.forEach(d => {
                 const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 rounded-lg p-6 hover:shadow-md transition-all cursor-pointer group";
+                card.className = "bg-white border border-slate-200 rounded-lg p-6 hover:shadow-md transition-all cursor-pointer group min-w-0";
+                card.style.minWidth = '280px';
                 card.onclick = (e) => { if(!e.target.closest('.action-btn')) openWorkspace(d.id); };
                 
                 // Parse widgets to count devices
                 let widgetCount = 0;
                 let deviceCount = 0;
                 try {
-                    const widgets = JSON.parse(d.data || '[]');
-                    widgetCount = widgets.length;
+                    // Handle both string and already parsed data
+                    let widgets;
+                    if (typeof d.data === 'string') {
+                        widgets = JSON.parse(d.data || '[]');
+                    } else {
+                        widgets = d.data || [];
+                    }
+                    widgetCount = Array.isArray(widgets) ? widgets.length : 0;
                     // Count unique channels as devices
-                    const channels = new Set(widgets.map(w => w.ch));
-                    deviceCount = channels.size;
-                } catch(e) {}
+                    if (Array.isArray(widgets) && widgets.length > 0) {
+                        const channels = new Set(widgets.map(w => w.ch).filter(ch => ch !== undefined));
+                        deviceCount = channels.size;
+                    }
+                } catch(e) {
+                    console.warn('Error parsing dashboard data:', e);
+                    widgetCount = 0;
+                }
                 
                 const updatedDateTime = d.updated_at ? formatDateTime(d.updated_at) : 'Never';
                 
@@ -655,16 +677,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 gap-2">
-                        <button class="action-btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 flex-1 justify-center" onclick="openWorkspace('${d.id}'); event.stopPropagation();">
+                    <div class="flex items-center justify-start pt-4 border-t border-slate-100 gap-2 flex-wrap">
+                        <button class="action-btn bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 flex-shrink-0" onclick="openWorkspace('${d.id}'); event.stopPropagation();">
                             <i class="ph ph-pencil-simple text-sm"></i>
                             <span>Edit</span>
                         </button>
-                        <button class="action-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2" onclick="copyDashboard('${d.id}', event)" title="Copy Panel">
+                        <button class="action-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 flex-shrink-0" onclick="copyDashboard('${d.id}', event)" title="Copy Panel">
                             <i class="ph ph-copy text-sm"></i>
                             <span>Copy</span>
                         </button>
-                        <button class="action-btn bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2" onclick="deleteDashboard('${d.id}', event)" title="Delete">
+                        <button class="action-btn bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 flex-shrink-0" onclick="deleteDashboard('${d.id}', event)" title="Delete">
                             <i class="ph ph-trash text-sm"></i>
                             <span>Delete</span>
                         </button>
@@ -722,7 +744,7 @@
         document.getElementById('screen-workspace').classList.remove('hidden');
         
         widgetRegistry.clear();
-        setEditMode(false); // Default to Live Mode
+        setEditMode(true); // Enable Edit Mode by default when opening workspace
 
         // Load Data
         let dash = null;
@@ -747,7 +769,16 @@
             
             // Populate Grid
             try { 
-                widgets = JSON.parse(dash.data || '[]'); 
+                // Handle both string and already parsed data
+                if (typeof dash.data === 'string') {
+                    widgets = JSON.parse(dash.data || '[]');
+                } else {
+                    widgets = dash.data || [];
+                }
+                // Ensure widgets is an array
+                if (!Array.isArray(widgets)) {
+                    widgets = [];
+                }
             } catch(e) {
                 console.warn('Failed to parse dashboard data:', e);
                 widgets = [];
@@ -777,10 +808,11 @@
                 if (gridContainer) {
                     gridContainer.classList.remove('hidden');
                 }
+                // Update widget count immediately
                 updateWidgetCount(widgets.length);
                 
                 // Add widgets to grid
-                widgets.forEach(item => {
+                widgets.forEach((item, index) => {
                     const html = getWidgetHTML(item.id, item.type, item.title, item);
                     if (grid) {
                         // Ensure we have valid grid positions
@@ -790,7 +822,13 @@
                         const h = item.h !== undefined ? item.h : 3;
                         
                         grid.addWidget({ w, h, x, y, content: html, id: item.id });
-                        setTimeout(() => initWidgetInstance(item.id, item), 50);
+                        setTimeout(() => {
+                            initWidgetInstance(item.id, item);
+                            // Update count after each widget is added
+                            if (index === widgets.length - 1) {
+                                updateWidgetCount(grid.engine.nodes.length);
+                            }
+                        }, 50 * (index + 1));
                     }
                 });
             } else {

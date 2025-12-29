@@ -12,6 +12,24 @@
     body { font-family: 'Inter', sans-serif; }
     .hero-red { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
     .footer-dark { background: #0f172a; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                  opacity 0.3s ease-in-out,
+                  padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer.expanded {
+      opacity: 1;
+      padding-top: 0;
+      padding-bottom: 1rem;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                  opacity 0.3s ease-in-out 0.15s,
+                  padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 <body class="bg-white text-slate-900">
@@ -30,6 +48,9 @@
         <a href="features.html" class="text-slate-700 hover:text-red-600 font-medium transition">Features</a>
         <a href="index.html" class="text-slate-700 hover:text-red-600 font-medium transition">My Panels</a>
         <a href="contact.html" class="text-red-600 bg-red-50 px-3 py-1 rounded font-medium transition">Contact</a>
+        <a href="login.html" class="ml-4 inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition shadow-sm">
+          Login
+        </a>
       </div>
     </nav>
   </header>
@@ -99,7 +120,7 @@
         </div>
 
         <!-- Contact Information -->
-        <div class="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
+        <div class="bg-white rounded-xl pt-8 px-8 pb-4 shadow-lg border border-slate-200">
           <div class="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide mb-4">
             <i class="ph ph-info"></i>
             <span>Contact Info</span>
@@ -224,21 +245,41 @@
         <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
       </div>
       <div class="space-y-4">
-        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
-          <h3 class="text-lg font-bold mb-3 text-slate-900">How quickly can I get started?</h3>
-          <p class="text-base text-slate-600 leading-relaxed">You can get started in minutes! Simply sign up for a free account and start building your first dashboard. No credit card required.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+          <button class="faq-question w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer hover:bg-red-50 transition-colors" onclick="toggleFaq(this)">
+            <h3 class="text-lg font-bold text-slate-900 pr-4">How quickly can I get started?</h3>
+            <i class="ph ph-caret-down faq-icon text-red-600 text-xl transition-transform duration-300 flex-shrink-0"></i>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-base text-slate-600 leading-relaxed">You can get started in minutes! Simply sign up for a free account and start building your first dashboard. No credit card required.</p>
+          </div>
         </div>
-        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
-          <h3 class="text-lg font-bold mb-3 text-slate-900">What devices are supported?</h3>
-          <p class="text-base text-slate-600 leading-relaxed">We support all major IoT platforms including Arduino, ESP32, Raspberry Pi, and industrial PLCs. Check our hardware compatibility page for the full list.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+          <button class="faq-question w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer hover:bg-red-50 transition-colors" onclick="toggleFaq(this)">
+            <h3 class="text-lg font-bold text-slate-900 pr-4">What devices are supported?</h3>
+            <i class="ph ph-caret-down faq-icon text-red-600 text-xl transition-transform duration-300 flex-shrink-0"></i>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-base text-slate-600 leading-relaxed">We support all major IoT platforms including Arduino, ESP32, Raspberry Pi, and industrial PLCs. Check our hardware compatibility page for the full list.</p>
+          </div>
         </div>
-        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
-          <h3 class="text-lg font-bold mb-3 text-slate-900">Is there a free trial?</h3>
-          <p class="text-base text-slate-600 leading-relaxed">Yes! We offer a free tier that includes up to 10 devices and basic features. You can upgrade anytime to unlock advanced features.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+          <button class="faq-question w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer hover:bg-red-50 transition-colors" onclick="toggleFaq(this)">
+            <h3 class="text-lg font-bold text-slate-900 pr-4">Is there a free trial?</h3>
+            <i class="ph ph-caret-down faq-icon text-red-600 text-xl transition-transform duration-300 flex-shrink-0"></i>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-base text-slate-600 leading-relaxed">Yes! We offer a free tier that includes up to 10 devices and basic features. You can upgrade anytime to unlock advanced features.</p>
+          </div>
         </div>
-        <div class="bg-white border-2 border-red-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
-          <h3 class="text-lg font-bold mb-3 text-slate-900">Do you offer enterprise support?</h3>
-          <p class="text-base text-slate-600 leading-relaxed">Absolutely! Our enterprise plans include dedicated support, custom integrations, and SLA guarantees. Contact our sales team for more information.</p>
+        <div class="bg-white border-2 border-red-200 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+          <button class="faq-question w-full px-6 py-4 flex items-center justify-between text-left cursor-pointer hover:bg-red-50 transition-colors" onclick="toggleFaq(this)">
+            <h3 class="text-lg font-bold text-slate-900 pr-4">Do you offer enterprise support?</h3>
+            <i class="ph ph-caret-down faq-icon text-red-600 text-xl transition-transform duration-300 flex-shrink-0"></i>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-base text-slate-600 leading-relaxed">Absolutely! Our enterprise plans include dedicated support, custom integrations, and SLA guarantees. Contact our sales team for more information.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -317,6 +358,38 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    function toggleFaq(button) {
+      const faqItem = button.closest('.bg-white');
+      const answer = faqItem.querySelector('.faq-answer');
+      const icon = button.querySelector('.faq-icon');
+      const isExpanded = answer.classList.contains('expanded');
+      
+      if (isExpanded) {
+        // Collapse
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        // Force reflow
+        answer.offsetHeight;
+        answer.classList.remove('expanded');
+        answer.style.maxHeight = '0';
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        // Expand
+        answer.classList.add('expanded');
+        // Set max-height to actual scrollHeight for smooth animation
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+        
+        // Reset max-height after animation completes to allow content to grow
+        setTimeout(() => {
+          if (answer.classList.contains('expanded')) {
+            answer.style.maxHeight = 'none';
+          }
+        }, 500);
+      }
+    }
+  </script>
 
 </body>
 </html>
