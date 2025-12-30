@@ -41,13 +41,93 @@
       border: 1px solid #e2e8f0; height: 100% !important; 
     }
     body.edit-mode .grid-stack-item-content { border: 2px dashed #94a3b8; cursor: move; }
-    .widget-header { height: 36px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; background: #fff; flex-shrink: 0; }
-    .widget-title { font-weight: 600; font-size: 12px; color: #475569; text-transform: uppercase; }
-    .edit-tools { display: none; gap: 8px; align-items: center; }
-    body.edit-mode .edit-tools { display: flex !important; }
-    .widget-header { position: relative; }
-    .edit-tools button { cursor: pointer; transition: all 0.2s; }
-    .edit-tools button:hover { transform: scale(1.1); }
+    /* Ensure edit tools buttons are always on top and clickable */
+    .grid-stack-item .edit-tools {
+        position: relative;
+        z-index: 100;
+    }
+    .grid-stack-item .edit-tools button {
+        position: relative;
+        z-index: 101;
+        pointer-events: auto;
+    }
+    .widget-header { 
+        height: 36px; 
+        padding: 0 10px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        border-bottom: 1px solid #f1f5f9; 
+        background: #fff; 
+        flex-shrink: 0; 
+        position: relative;
+        z-index: 10;
+    }
+    .widget-title { 
+        font-weight: 600; 
+        font-size: 12px; 
+        color: #475569; 
+        text-transform: uppercase; 
+        flex: 1;
+    }
+    .edit-tools { 
+        display: none; 
+        gap: 6px; 
+        align-items: center; 
+        flex-shrink: 0;
+    }
+    body.edit-mode .edit-tools { 
+        display: flex !important; 
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .edit-tools button { 
+        cursor: pointer; 
+        transition: all 0.2s; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        z-index: 20;
+    }
+    .edit-tools button:hover { 
+        transform: scale(1.15); 
+        background: rgba(239, 68, 68, 0.1);
+    }
+    .edit-tools button:active {
+        transform: scale(1.05);
+    }
+    .edit-tools button i {
+        font-size: 16px;
+        display: block;
+        pointer-events: none;
+    }
+    /* Ensure edit tools are visible in edit mode */
+    body.edit-mode .grid-stack-item .edit-tools {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    /* Make edit buttons more visible */
+    body.edit-mode .edit-tools button {
+        color: #64748b !important;
+    }
+    body.edit-mode .edit-tools button:hover {
+        color: #dc2626 !important;
+        background: rgba(239, 68, 68, 0.1) !important;
+    }
+    /* Make widget header more prominent in edit mode */
+    body.edit-mode .widget-header {
+        background: #f8fafc;
+        border-bottom: 2px solid #e2e8f0;
+    }
     .widget-body { flex: 1; min-height: 0; width: 100%; height: 100%; position: relative; overflow: hidden; container-type: size; }
 
     /* Widget Internals */
@@ -154,8 +234,13 @@
 
     <!-- Action Bar -->
     <div class="h-12 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
-        <!-- Left: Dashboard Name -->
-        <div class="flex items-center gap-2">
+        <!-- Left: Back Button and Dashboard Name -->
+        <div class="flex items-center gap-3">
+            <button onclick="loadList()" class="flex items-center gap-2 text-slate-600 hover:text-red-600 transition px-2 py-1 rounded hover:bg-red-50" title="Back to Panels List">
+                <i class="ph ph-arrow-left text-lg"></i>
+                <span class="text-sm font-medium">Back to Panels</span>
+            </button>
+            <div class="h-4 w-px bg-slate-300"></div>
             <span class="text-sm font-semibold text-slate-900" id="dashboard-name-display">Loading...</span>
         </div>
         
@@ -570,6 +655,10 @@
     async function loadList() {
         document.getElementById('screen-list').classList.remove('hidden');
         document.getElementById('screen-workspace').classList.add('hidden');
+        // Update browser history
+        if (window.history && window.history.pushState) {
+            window.history.pushState({ screen: 'list' }, '', 'index.html');
+        }
         
         const container = document.getElementById('dashboard-grid');
         const loadingState = document.getElementById('loading-state');
@@ -742,6 +831,10 @@
         // Switch Views
         document.getElementById('screen-list').classList.add('hidden');
         document.getElementById('screen-workspace').classList.remove('hidden');
+        // Update browser history
+        if (window.history && window.history.pushState) {
+            window.history.pushState({ screen: 'workspace', id: id }, '', `index.html?panel=${id}`);
+        }
         
         widgetRegistry.clear();
         setEditMode(true); // Enable Edit Mode by default when opening workspace
@@ -1014,7 +1107,7 @@
       </div>`;
   }
 
-        return `<div class="grid-stack-item-content"><div class="widget-header"><span class="widget-title" id="${id}_title_disp">${title}</span><div class="edit-tools"><button onclick="openSettings('${id}')" class="text-slate-400 hover:text-red-600 p-1"><i class="ph ph-gear text-lg"></i></button><button onclick="deleteWidget(this)" class="text-slate-400 hover:text-red-500 p-1"><i class="ph ph-trash text-lg"></i></button></div></div><div class="widget-body">${c}</div></div>`;
+        return `<div class="grid-stack-item-content"><div class="widget-header"><span class="widget-title" id="${id}_title_disp">${title}</span><div class="edit-tools"><button onclick="openSettings('${id}'); event.stopPropagation();" class="edit-btn-settings text-slate-600 hover:text-red-600 hover:bg-red-50" title="Settings" type="button"><i class="ph ph-gear"></i></button><button onclick="deleteWidget(this); event.stopPropagation();" class="edit-btn-delete text-slate-600 hover:text-red-600 hover:bg-red-50" title="Delete" type="button"><i class="ph ph-trash"></i></button></div></div><div class="widget-body">${c}</div></div>`;
     }
 
     function initWidgetInstance(id, config) {
@@ -1284,10 +1377,35 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => { 
-        loadList(); 
+        // Initialize history state
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({ screen: 'list' }, '', 'index.html');
+        }
+        
+        // Check if URL has panel parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const panelId = urlParams.get('panel');
+        if (panelId) {
+            openWorkspace(panelId);
+        } else {
+            loadList();
+        }
+        
         initMQTT();
         initGrid();
         initWidgetSearch();
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.screen === 'list') {
+                loadList();
+            } else if (event.state && event.state.screen === 'workspace' && event.state.id) {
+                openWorkspace(event.state.id);
+            } else {
+                // Default: go to list if no state
+                loadList();
+            }
+        });
     });
 </script>
 </body>
